@@ -2,17 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" th:href="@{./css/login.css}"/>
 <title>Login page</title>
 </head>
 <body>
 	<h1>Welcome to the gamified marketing application!</h1>
-
+ 
 	<form action="CheckLogin" method="POST">
-		Username: <input type="text" name="username" required> <br>
-		Password: <input type="password" name="pwd" required><br>
-		<input type="submit" value="login">
-		<p th:text=" ${errorMsg}"></p>
-	</form>
- me sono desgargatoo
+ 		<div class="container">
+    		<label for="uuname"><b>Username</b></label>
+    		<input type="text" placeholder="Enter Username or Email" name="username_email" required>
+
+    		<label for="upsw"><b>Password</b></label>
+    		<input type="password" placeholder="Enter Password" name="pwd" required>
+
+    		<button type="submit" value="login">Login</button>
+    		<p th:text=" ${errorMsg}"></p>
+  		</div>
+	</form> 
 </body>
 </html>
+	
