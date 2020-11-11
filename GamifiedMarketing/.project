@@ -3,6 +3,7 @@
 	<name>GamifiedMarketing</name>
 	<comment></comment>
 	<projects>
+		<project>GamifiedMarketingEJB</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
