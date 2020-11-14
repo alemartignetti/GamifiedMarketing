@@ -33,7 +33,7 @@
 			<div style="padding-bottom: 18px;">
 				<div th:inline="text">[[${question.text}]]</div>
 				<span style="color: red;"> *</span><br />
-				<textarea th:id="'question_' + ${question.id}" style="max-width: 450px;"
+				<textarea th:id="'question_' + ${question.num}" style="max-width: 450px;"
 					rows="6" required></textarea>
 			</div>
 		</div>

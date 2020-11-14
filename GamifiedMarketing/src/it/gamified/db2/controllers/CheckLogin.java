@@ -16,12 +16,17 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import it.gamified.db2.utils.RegexUtils;
+import it.gamified.db2.services.UserServices;
+import it.gamified.db2.entities.User;
+import it.gamified.db2.exceptions.LoginException;
+import javax.persistence.NonUniqueResultException;
 
 @WebServlet("/CheckLogin")
 public class CheckLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
+	@EJB(name = "it.gamified.db2.services/UserServices")
+	private UserServices usrService;
 
 	public CheckLogin() {
 		super();
@@ -55,24 +60,24 @@ public class CheckLogin extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
 			return;
 		}
-//		User user; // entity to vbe created
-//		try {
-//			// query db to authenticate for user
-//			user = usrService.checkCredentials(usr_field, pass);
-//		} catch (CredentialsException | NonUniqueResultException e) {
-//			e.printStackTrace();
-//			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
-//			return;
-//		}
+		User user;
+		try {
+			// query db to authenticate for user
+			user = usrService.loginVerification(usr_field, pass);
+		} catch (LoginException | NonUniqueResultException e) {
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
+			return;
+		}
 
 		// If the user exists, add info to the session and go to home page, otherwise
 		// show login page with error message
 
 		String path;
-		if (/* user == null */ false) {
+		if (user == null) {
 			ServletContext servletContext = getServletContext();
 			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("errorMsg", "Incorrect username or password");
+			ctx.setVariable("errorMsg", "Incorrect username/email or password");
 			path = "/index.html";
 			templateEngine.process(path, ctx, response.getWriter());
 		} else if(usr_field.equals("a")) {
@@ -83,7 +88,7 @@ public class CheckLogin extends HttpServlet {
 			templateEngine.process(path, ctx, response.getWriter());
 		}
 		else {
-//			request.getSession().setAttribute("user", user);
+			request.getSession().setAttribute("user", user);
 			path = getServletContext().getContextPath() + "/HomePage";
 			response.sendRedirect(path);
 		}
