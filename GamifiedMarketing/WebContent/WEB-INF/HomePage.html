@@ -10,7 +10,7 @@
 <body>
 
 	<div align="right">
-		<!-- <p th:text="${'User: ' + session.user.name == null ? '' : 'owo'}"></p>  -->
+		<p th:text="'Welcome, ' + ${session.user.username} + '!'">Welcome, user.</p>
 		<a th:href="@{/Logout}">Logout</a>
 	</div>
 	
