@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" style="font-size: 16px;">
+<head>
+<meta charset="ISO-8859-1">
+<title>HomePage</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../CSS/homepage.css" th:href="@{/css/homepage.css}" />
+</head>
+
+<body>
+
+	<div align="right">
+		<!-- <p th:text="${'User: ' + session.user.name == null ? '' : 'owo'}"></p>  -->
+		<a th:href="@{/Logout}">Logout</a>
+	</div>
+	
+	<h1>Home Page</h1>
+	
+	<div align="center" class="img_container">
+		<div align="center" class="img_header">
+			<h2>Product of the day</h2>
+			<p th:text="${product}"> </p>
+		</div>
+		<!-- <img th:src="${pic} == null ? _ : @{'data:image/png;base64,'+${pic}}"> -->
+	</div>
+	
+	<div align="center" class="review_container" th:each="r : ${reviews}">
+		<div align="center" class="generic_review">
+			<div align="left" class="img_avatar_container">
+				<img class="img_avatar" src="./img/avatar.jpg"></img>
+			</div>
+			<div align="left">
+				<p th:text="${r}"></p>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

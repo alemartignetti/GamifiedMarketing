@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./css/login.css"/>
+<title>Leaderboard</title>
+</head>
+<body>
+<body>
+	<h1>Our top respondents</h1>
+ 
+ 	<div align="right">
+		<!-- <p th:text="${'User: ' + session.user.name == null ? '' : 'owo'}"></p>  -->
+		<a th:href="@{/Logout}">Logout</a>
+	</div>
+	
+	<div align="right">
+		<a th:href="@{/HomeManager}">Home</a>
+	</div>
+	
+	<div id="container" th:each="a : ${answers}">
+		<div id="row" th:classappend=" ${a.orderingattribute}">
+		<!-- orderattribute gives different border. Ordering done server side. -->
+    		<div class="name" th:inline="text">[[${a.name}]]</div>
+    		<div class="score" th:inline="text">[[${a.score}]]</div>
+  		</div>
+	</div>
+</body>
+</body>
+</html>

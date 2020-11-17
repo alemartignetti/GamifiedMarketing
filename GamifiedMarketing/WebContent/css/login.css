@@ -98,3 +98,11 @@ span.pwd {
     width: 100%;
   }
 } 
+
+.error_control{
+	border: 3px solid red;
+}
+
+.email_error {
+	font-size: 0px;
+}
