@@ -3,13 +3,13 @@ package it.gamified.db2.controllers;
 import java.io.IOException;
 
 import javax.ejb.EJB;
+import javax.persistence.NonUniqueResultException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
@@ -17,22 +17,21 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import it.gamified.db2.services.UserServices;
 import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.EmailDuplicate;
 import it.gamified.db2.exceptions.RegistrationException;
 import it.gamified.db2.exceptions.UsernameDuplicate;
+import it.gamified.db2.services.UserServices;
 
-import javax.persistence.NonUniqueResultException;
 
 @WebServlet("/Register")
-public class RegistrationManager extends HttpServlet {
+public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
 	@EJB(name = "it.gamified.db2.services/UserServices")
 	private UserServices usrService;
 
-	public RegistrationManager() {
+	public Register() {
 		super();
 	}
 
@@ -97,17 +96,15 @@ public class RegistrationManager extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate();
-		}
-		String path = getServletContext().getContextPath() + "/Register";
-		response.sendRedirect(path);
+		
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		String path = "/WEB-INF/Register.html";
+		templateEngine.process(path, ctx, response.getWriter());
 	}
 
 	public void destroy() {
 	}
 
-}
 
+}

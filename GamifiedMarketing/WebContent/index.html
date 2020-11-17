@@ -20,11 +20,7 @@
     		<p th:text=" ${errorMsg}"></p>
   		</div>
 	</form>
-	<div align="right">
-		<!-- <p th:text="${'User: ' + session.user.name == null ? '' : 'owo'}"></p>  -->
-		<a th:href="@{/Logout}">Logout</a>
-	</div>
-	<h3>Don't have an account? <a th:href="@{/RegistrationManager}">Register</a></h3>
+	<h3>Don't have an account? <a href="Register">Register</a></h3>
 	
 </body>
 </html>
