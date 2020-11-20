@@ -1,12 +1,11 @@
 package it.gamified.db2.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="marketinganswer", schema="db_gamifiedschema")
+@Table(name = "marketinganswer", schema="db_gamifiedschema")
 public class MarketingAnswer implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -17,11 +16,11 @@ public class MarketingAnswer implements Serializable{
 	private String text;
 	
 	@ManyToOne
-	@JoinColumn(name="question")
+	@JoinColumn(name="markquest_id")
 	private MarketingQuestion question;
 	
 	@ManyToOne
-	@JoinColumn(name="answer")
+	@JoinColumn(name="answer_id")
 	private Answer answer;
 
 	public int getId() {

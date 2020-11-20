@@ -4,10 +4,8 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "usertable", schema = "db_gamifiedschema")
+@Table(name = "marketingquestion", schema = "db_gamifiedschema")
 public class MarketingQuestion implements Serializable {
-
-	
 	private static final long serialVersionUID = 1L;
 
 	public MarketingQuestion() {
@@ -24,7 +22,7 @@ public class MarketingQuestion implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name="quest_id")
-	private int quest_id;
+	private Questionnaire questionnaire;
 
 	public int getId() {
 		return id;
@@ -50,12 +48,12 @@ public class MarketingQuestion implements Serializable {
 		this.text = text;
 	}
 
-	public int getQuest_id() {
-		return quest_id;
+	public Questionnaire getQuestionnaire() {
+		return questionnaire;
 	}
 
-	public void setQuest_id(int quest_id) {
-		this.quest_id = quest_id;
+	public void setQuestionnaire(Questionnaire questionnaire) {
+		this.questionnaire = questionnaire;
 	}
    
 }

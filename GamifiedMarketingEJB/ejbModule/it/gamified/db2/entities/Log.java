@@ -18,7 +18,7 @@ public class Log implements Serializable{
     private Date timestamp;
 	
 	@ManyToOne
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "user_id")
 	private User user;
 	
 	public enum Type {

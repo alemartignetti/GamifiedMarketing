@@ -5,6 +5,7 @@
 		<class>it.gamified.db2.entities.Answer</class>
 		<class>it.gamified.db2.entities.Log</class>
 		<class>it.gamified.db2.entities.MarketingAnswer</class>
+		<class>it.gamified.db2.entities.MarketingQuestion</class>
 		<class>it.gamified.db2.entities.Product</class>
 		<class>it.gamified.db2.entities.Questionnaire</class>
 		<class>it.gamified.db2.entities.Review</class>

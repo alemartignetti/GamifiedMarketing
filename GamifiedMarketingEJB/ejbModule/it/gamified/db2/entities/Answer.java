@@ -17,11 +17,11 @@ public class Answer implements Serializable{
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "user_id")
 	private User user;
 	
 	@ManyToOne
-	@JoinColumn(name = "questionnaire")
+	@JoinColumn(name = "quest_id")
 	private Questionnaire questionnaire;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "answer", cascade = CascadeType.ALL)

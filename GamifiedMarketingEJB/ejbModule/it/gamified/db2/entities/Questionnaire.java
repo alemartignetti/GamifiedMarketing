@@ -2,6 +2,7 @@ package it.gamified.db2.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -18,10 +19,10 @@ public class Questionnaire implements Serializable{
 	private Date creation_date;
 	
 	@ManyToOne
-	@JoinColumn(name="product")
+	@JoinColumn(name="prod_id")
 	private Product product;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questions", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = CascadeType.ALL)
 	private List<MarketingQuestion> questions;
 
 	public int getId() {

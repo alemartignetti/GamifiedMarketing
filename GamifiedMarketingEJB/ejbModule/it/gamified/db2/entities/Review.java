@@ -15,11 +15,11 @@ public class Review implements Serializable {
 	private String text;
 	
 	@ManyToOne
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "user_id")
 	private User user;
 	
 	@ManyToOne
-	@JoinColumn(name = "questionnaire")
+	@JoinColumn(name = "quest_id")
 	private Questionnaire questionnaire;
 
 	public int getId() {
