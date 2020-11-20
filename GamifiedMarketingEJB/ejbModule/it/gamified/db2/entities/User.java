@@ -28,10 +28,15 @@ public class User implements Serializable {
 	
 	private String email;
 	
+	private int points;
+	
 	public enum Role {
 	    USER,
 	    ADMIN;
 	}
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Answer> answers;
 
 	@Column(columnDefinition = "ENUM('USER', 'ADMIN')")
 	@Enumerated(EnumType.STRING)
@@ -54,6 +59,8 @@ public class User implements Serializable {
         this.urole = Role.USER;
 
         this.blocked = false;
+        
+        this.points = 0;
 
     }
 	
@@ -63,6 +70,15 @@ public class User implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
 	}
 
 	public String getUsername() {

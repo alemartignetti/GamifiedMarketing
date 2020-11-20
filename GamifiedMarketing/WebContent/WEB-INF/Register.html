@@ -8,7 +8,7 @@
 <body>
   <h1>Welcome to the registration page!</h1>
   <h2>Insert your information in the form below:</h2>
-  <form action="Register" method="POST" onSubmit="return ValidateEmail()">
+  <form action="Register" method="POST" id="registration">
  		<div class="container">
     		<label for="uuname"><b>Username</b></label>
     		<input type="text" placeholder="Choose a Username" id='uuname' name="username" required>
@@ -17,29 +17,33 @@
     		<input type="password" placeholder="Choose a Password" id='upsw' name="pwd" required>
 			<br><br>
     		<label for="umail"><b>Email</b></label>
-    		<input type="text" placeholder="Enter your email" id='umail' name="email" required>
+    		<input type="email" placeholder="Enter your email" id='umail' name="email" required>
 			<br><br>
 			<button type="submit" value="register">Register</button>
 			<p th:text=" ${errorMsg}"></p>
 			<p class="email_error" id="email_msg">Email bad format</p>
   		</div>
 	</form>
+	<h3>
+		Already have an account? <a href="Register">Register</a>
+	</h3>
 	<script>
-	function ValidateEmail(mail) 
-	{
-		const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	$('#registration').submit(function(event) {
+	    event.preventDefault();
+	    var email_reg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+	    var emailinput = $('#umail').val();
 	    
-	 	if (test = re.test(String(mail).toLowerCase()))
-		{
-	 		$('#umail').removeClass("error_control")
-			$('#email_msg').addClass("email_error")
-		    return true
-		}
-	 	
-	    $('#umail').addClass("error_control")
-	    $('#email_msg').removeClass("email_error")
-	    return false
-	}
+	    $('#umail').removeClass("error_control")
+		$('#email_msg').addClass("email_error")
+
+	    if (email_reg.test(emailinput) == false) {
+	    	$('#umail').addClass("error_control")
+	        $('#email_msg').removeClass("email_error")
+	    }
+    	$('#umail').removeClass("error_control")
+		$('#email_msg').addClass("email_error")
+	});
 	</script>
 </body>
 </html>
