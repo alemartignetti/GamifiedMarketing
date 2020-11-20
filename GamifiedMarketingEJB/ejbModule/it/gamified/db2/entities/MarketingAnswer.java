@@ -10,16 +10,50 @@ import javax.persistence.*;
 public class MarketingAnswer implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-    private Date timestamp;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
 	
-	public enum Type {
-	    LOGIN,
-	    CANCEL;
+	private String text;
+	
+	@ManyToOne
+	@JoinColumn(name="question")
+	private MarketingQuestion question;
+	
+	@ManyToOne
+	@JoinColumn(name="answer")
+	private Answer answer;
+
+	public int getId() {
+		return id;
 	}
-	
-	@Column(columnDefinition = "ENUM('LOGIN', 'CANCEL')")
-	@Enumerated(EnumType.STRING)
-	private Type type;
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public MarketingQuestion getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(MarketingQuestion question) {
+		this.question = question;
+	}
+
+	public Answer getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(Answer answer) {
+		this.answer = answer;
+	}
 }
 

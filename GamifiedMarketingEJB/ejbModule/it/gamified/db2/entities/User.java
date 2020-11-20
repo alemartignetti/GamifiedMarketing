@@ -37,6 +37,12 @@ public class User implements Serializable {
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Answer> answers;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Review> reviews;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Log> logs;
 
 	@Column(columnDefinition = "ENUM('USER', 'ADMIN')")
 	@Enumerated(EnumType.STRING)
@@ -63,22 +69,13 @@ public class User implements Serializable {
         this.points = 0;
 
     }
-	
+
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
-	}
-	
-	
-	public int getPoints() {
-		return points;
-	}
-
-	public void setPoints(int points) {
-		this.points = points;
 	}
 
 	public String getUsername() {
@@ -105,6 +102,38 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+	public List<Log> getLogs() {
+		return logs;
+	}
+
+	public void setLogs(List<Log> logs) {
+		this.logs = logs;
+	}
+
 	public Role getUrole() {
 		return urole;
 	}
@@ -119,6 +148,6 @@ public class User implements Serializable {
 
 	public void setBlocked(boolean blocked) {
 		this.blocked = blocked;
-	}
+	}	
 
 }

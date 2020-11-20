@@ -2,6 +2,7 @@ package it.gamified.db2.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -22,6 +23,9 @@ public class Answer implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "questionnaire")
 	private Questionnaire questionnaire;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "answer", cascade = CascadeType.ALL)
+	private List<MarketingAnswer> answers;
 	
 	private int age;
 	private String sex;
@@ -94,5 +98,12 @@ public class Answer implements Serializable{
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
-	
+
+	public List<MarketingAnswer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<MarketingAnswer> answers) {
+		this.answers = answers;
+	}
 }

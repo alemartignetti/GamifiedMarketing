@@ -20,6 +20,9 @@ public class Questionnaire implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="product")
 	private Product product;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questions", cascade = CascadeType.ALL)
+	private List<MarketingQuestion> questions;
 
 	public int getId() {
 		return id;
@@ -44,5 +47,12 @@ public class Questionnaire implements Serializable{
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	
+
+	public List<MarketingQuestion> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<MarketingQuestion> questions) {
+		this.questions = questions;
+	}
 }

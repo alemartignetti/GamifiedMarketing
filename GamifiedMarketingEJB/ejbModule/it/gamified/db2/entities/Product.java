@@ -23,7 +23,7 @@ public class Product implements Serializable {
 	
 	@Basic(fetch = FetchType.LAZY)
 	@Lob
-	private byte[] photoimage;
+	private byte[] image;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
 	private List<Questionnaire> questionnaires; 
@@ -49,17 +49,17 @@ public class Product implements Serializable {
 	}
 
 
-	public byte[] getPhotoimage() {
-		return photoimage;
+	public byte[] getImage() {
+		return image;
 	}
 	
-	public String getPhotoimageData() {
-		return Base64.getMimeEncoder().encodeToString(photoimage);
+	public String getImageData() {
+		return Base64.getMimeEncoder().encodeToString(image);
 	}
 
 
-	public void setPhotoimage(byte[] photoimage) {
-		this.photoimage = photoimage;
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 
@@ -76,4 +76,5 @@ public class Product implements Serializable {
 	public Product() {
 	}
 
+	
 }
