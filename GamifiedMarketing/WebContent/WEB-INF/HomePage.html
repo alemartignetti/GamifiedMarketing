@@ -10,36 +10,45 @@
 <body>
 
 	<div align="right">
-		<p th:text="'Welcome, ' + ${session.user.username} + '!'">Welcome, user.</p>
+		<p th:text="'Welcome, ' + ${session.user.username} + '!'">Welcome,
+			user.</p>
 		<a th:href="@{/Logout}">Logout</a>
 	</div>
-	
-	<h1>Home Page</h1>
-	
-	<h1>The product of the day is..</h1>
-	<p th:text="${product.name}"></p>
-	
-	<img alt="photo"
-			th:src="*{'data:image/png;base64,'+ product.getImageData()}">
-	
-	<a th:href="@{/QuestionnaireForm}">Answer to the Daily Questionnaire!</a>
 
-	<div class="container" style="margin-top: 10px;">
-		<div th:each="rw : ${reviews}">
-					<div align="left" class="img_avatar_container">
-						<img class="img_avatar" src="./img/avatar.jpg"></img>
-					</div>
+	<h1>Home Page</h1>
+
+	<div th:if="${questAvail}">
+		<h2>The product of the day is..</h2>
+		<p class="product_name" th:text="${product.name}"></p>
+		<img alt="photo" class="product_img"
+			th:src="*{'data:image/png;base64,'+ product.getImageData()}"> 
+		<div class="to_quest">
+ 			<a th:href="@{/QuestionnaireForm}">Answer the Daily Questionnaire!</a>
+		</div>		
+		
+
+		<div class="container" style="margin-top: 10px;" align="center">
+			<div th:each="rw : ${reviews}">
+				<div class="generic_review" align="center">
+					<img class="img_avatar" src="./img/avatar.jpg"></img>
 					<p th:text="${rw.user.username}" class="user_display" />
 					<p th:text="${rw.text}" class="user_text"></p>
-					<!-- <p th:text="${res.marketing_questionnaire.text}"></p> -->				
-		</div>
+				</div>
+				<!-- <p th:text="${res.marketing_questionnaire.text}"></p> -->
+			</div>
 
-		<div class="add_review_container">
-			<form action="AddComment" method="POST">
-			    <input type="text" placeholder="Insert your comment here." name="add_review" required>
-			    <button type="submit" class="review_submit">Post</button>			
-			</form>
+			<div class="add_review_container">
+				<form action="AddComment" method="POST">
+					<input type="text" placeholder="Insert your comment here."
+						name="add_review" required>
+					<button type="submit" class="review_submit">Post</button>
+				</form>
+			</div>
 		</div>
+	</div>
+	<div th:unless="${questAvail}">
+		<h2>No Daily Questionnaire Available!</h2>
+		<p align="center">Come Back tomorrow!</p>
 	</div>
 </body>
 

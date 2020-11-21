@@ -19,6 +19,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.gamified.db2.entities.*;
+import it.gamified.db2.exceptions.NoDailyQuestionnaire;
 import it.gamified.db2.exceptions.NonUniqueDailyQuestionnaire;
 import it.gamified.db2.services.QuestionnaireService;
 
@@ -55,7 +56,13 @@ public class HomePageManager extends HttpServlet {
 		Questionnaire dailyQuest = null;
 		List<Review> reviews = null;
 		Product product = null;
+		boolean isDailyQuestionnaireAvailable = false;
 		
+		// Redirect to the Home page and add missions to the parameters
+		String path = "/WEB-INF/HomePage.html";
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+				
 		try {
 			dailyQuest = qService.findDailyQuestionnaire();
 			reviews = dailyQuest.getReviews();
@@ -64,16 +71,21 @@ public class HomePageManager extends HttpServlet {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 			return;
+		} catch (NoDailyQuestionnaire e) {
+			System.out.print("No Daily Questionnaire, denying formatting.");
 		}
 		
-		// Redirect to the Home page and add missions to the parameters
-		String path = "/WEB-INF/HomePage.html";
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("dailyQuest", dailyQuest);
-		ctx.setVariable("reviews", reviews);
-		ctx.setVariable("product", product);
-
+		System.out.println("Check null questionnaire");
+		
+		if(dailyQuest != null) {
+			ctx.setVariable("dailyQuest", dailyQuest);
+			ctx.setVariable("reviews", reviews);
+			ctx.setVariable("product", product);
+			isDailyQuestionnaireAvailable = true;
+			System.out.println("Daily Questionnaire Formatted.");
+		}
+		ctx.setVariable("questAvail", isDailyQuestionnaireAvailable);
+		
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 

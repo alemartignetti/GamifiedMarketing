@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.TemporalType;
 import javax.persistence.NonUniqueResultException;
 
 import it.gamified.db2.exceptions.*;
@@ -22,12 +23,16 @@ public class QuestionnaireService {
 
 	//We chose this type of method for retrieving the daily questionnaire
 	//Might be a problem for midnight
-	public Questionnaire findDailyQuestionnaire() throws NonUniqueDailyQuestionnaire {
+	public Questionnaire findDailyQuestionnaire() throws NonUniqueDailyQuestionnaire, NoDailyQuestionnaire {
 		Date currentDate = new Date();
 		List<Questionnaire> questionnaires = em.createQuery("Select q from Questionnaire q "
-				+ "where q.ref_date = :date", Questionnaire.class).setParameter("date", currentDate).getResultList();
+				+ "where q.ref_date = :date", Questionnaire.class).setParameter("date", currentDate, TemporalType.DATE).getResultList();
+		System.out.println("Number of daily questionnaire: " + Integer.toString(questionnaires.size()));
 		if(questionnaires.size() > 1) {
 			throw new NonUniqueDailyQuestionnaire("Double Questionnaire of the day found. This is illegal by database constraint.");
+		}
+		else if (questionnaires.isEmpty()) {
+			throw new NoDailyQuestionnaire("Daily Questionnaire is missing.");
 		}
 		else {
 			return questionnaires.get(0);
