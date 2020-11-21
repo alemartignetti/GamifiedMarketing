@@ -24,6 +24,9 @@ public class Questionnaire implements Serializable{
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = CascadeType.ALL)
 	private List<MarketingQuestion> questions;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = CascadeType.ALL)
+	private List<Review> reviews;
 
 	public int getId() {
 		return id;
@@ -56,4 +59,13 @@ public class Questionnaire implements Serializable{
 	public void setQuestions(List<MarketingQuestion> questions) {
 		this.questions = questions;
 	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+	
 }

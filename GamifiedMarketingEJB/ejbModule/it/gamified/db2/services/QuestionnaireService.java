@@ -11,8 +11,6 @@ import javax.persistence.NonUniqueResultException;
 
 import it.gamified.db2.exceptions.*;
 import it.gamified.db2.entities.Questionnaire;
-import it.gamified.db2.entities.User;
-import it.gamified.db2.utils.SQLUtils;
 
 @Stateless
 public class QuestionnaireService {
@@ -24,12 +22,12 @@ public class QuestionnaireService {
 
 	//We chose this type of method for retrieving the daily questionnaire
 	//Might be a problem for midnight
-	public Questionnaire findDailyQuestionniare() throws DailyQuestionnaireDuplicate {
+	public Questionnaire findDailyQuestionnaire() throws NonUniqueDailyQuestionnaire {
 		Date currentDate = new Date();
 		List<Questionnaire> questionnaires = em.createQuery("Select q from Questionnaire q "
 				+ "where q.ref_date = :date", Questionnaire.class).setParameter("date", currentDate).getResultList();
 		if(questionnaires.size() > 1) {
-			throw new DailyQuestionnaireDuplicate("Double Questionnaire of the day found. This is illegal by database constraint.");
+			throw new NonUniqueDailyQuestionnaire("Double Questionnaire of the day found. This is illegal by database constraint.");
 		}
 		else {
 			return questionnaires.get(0);

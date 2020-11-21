@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,10 +18,16 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import it.gamified.db2.entities.*;
+import it.gamified.db2.exceptions.NonUniqueDailyQuestionnaire;
+import it.gamified.db2.services.QuestionnaireService;
+
 @WebServlet("/HomePage")
 public class HomePageManager extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
+	@EJB(name = "it.gamified.db2.services/QuestionnaireService")
+	private QuestionnaireService qService;
 
 	public HomePageManager() {
 		super();
@@ -45,26 +52,25 @@ public class HomePageManager extends HttpServlet {
 			return;
 		}
 		
-
-//		try {
-//			missions = mService.findMissionsByUser(user.getId());
-//			// This version has been chosen to prioritize performance and allow refresh of reviews
-//			// List<Mission> missions = mService.findMissionsByUserRefresh(user.getId());
-//
-//			projects = pService.findAllProjects();
-//		} catch (Exception e) {
-//			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
-//			return;
-//		}
-
+		Questionnaire dailyQuest = null;
+		List<Review> reviews = null;
+		Product product = null;
+		
+		try {
+			dailyQuest = qService.findDailyQuestionnaire();
+			reviews = dailyQuest.getReviews();
+			product = dailyQuest.getProduct();
+		} catch (NonUniqueDailyQuestionnaire e) {
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+			return;
+		}
+		
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/HomePage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-//		ctx.setVariable("missions", missions);
-//		ctx.setVariable("projects", projects);
-		String product = "Generic";
-		List<String> reviews = new ArrayList<String>(){{ add("1"); add("2"); }};
+		ctx.setVariable("dailyQuest", dailyQuest);
 		ctx.setVariable("reviews", reviews);
 		ctx.setVariable("product", product);
 
