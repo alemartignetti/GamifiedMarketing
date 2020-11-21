@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,10 +20,21 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import it.gamified.db2.entities.MarketingQuestion;
+import it.gamified.db2.entities.Product;
+import it.gamified.db2.entities.Questionnaire;
+import it.gamified.db2.entities.Review;
+import it.gamified.db2.exceptions.NonUniqueDailyQuestionnaire;
+import it.gamified.db2.services.QuestionnaireService;
+
 @WebServlet("/QuestionnaireForm")
 public class QuestionnaireForm extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
+	@PersistenceContext(unitName = "GamifiedMarketingEJB")
+	private EntityManager em;
+	@EJB(name = "it.gamified.db2.services/QuestionnaireService")
+	private QuestionnaireService qService;
 
 	public QuestionnaireForm() {
 		super();
@@ -44,6 +58,28 @@ public class QuestionnaireForm extends HttpServlet {
 			response.sendRedirect(loginpath);
 			return;
 		}
+		
+		Questionnaire dailyQuest = null;
+		List<MarketingQuestion> questions = null;
+		Product product = null;
+		
+		try {
+			dailyQuest = qService.findDailyQuestionnaire();
+			questions = dailyQuest.getQuestions();
+			product = dailyQuest.getProduct();
+		} catch (NonUniqueDailyQuestionnaire e) {
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+			return;
+		}
+		
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		ctx.setVariable("questions", questions);
+		ctx.setVariable("product", product);
+		
+		String path = "/WEB-INF/Questionnaire.html";
+		templateEngine.process(path, ctx, response.getWriter());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
