@@ -24,6 +24,7 @@ import it.gamified.db2.entities.MarketingQuestion;
 import it.gamified.db2.entities.Product;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.Review;
+import it.gamified.db2.exceptions.NoDailyQuestionnaire;
 import it.gamified.db2.exceptions.NonUniqueDailyQuestionnaire;
 import it.gamified.db2.services.QuestionnaireService;
 
@@ -58,11 +59,11 @@ public class QuestionnaireForm extends HttpServlet {
 			response.sendRedirect(loginpath);
 			return;
 		}
-		
+
 		Questionnaire dailyQuest = null;
 		List<MarketingQuestion> questions = null;
 		Product product = null;
-		
+
 		try {
 			dailyQuest = qService.findDailyQuestionnaire();
 			questions = dailyQuest.getQuestions();
@@ -71,13 +72,15 @@ public class QuestionnaireForm extends HttpServlet {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 			return;
+		} catch (NoDailyQuestionnaire e) {
+			// go to ERROR page which then has a button that redirects to homepage
 		}
-		
+
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("questions", questions);
 		ctx.setVariable("product", product);
-		
+
 		String path = "/WEB-INF/Questionnaire.html";
 		templateEngine.process(path, ctx, response.getWriter());
 	}
