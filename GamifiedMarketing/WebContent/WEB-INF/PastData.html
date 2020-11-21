@@ -3,7 +3,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="./css/questionnaire.css"/>
-<title>Questionnaire</title>
+<title>Past Data</title>
 </head>
 <body>
 	<div align="right">
@@ -12,21 +12,11 @@
 	</div>
 	
 	<div align="right">
-		<a th:href="@{/HomeManager}">Home</a>
+		<a th:href="@{/HomeAdmin}">Home</a>
 	</div>
 	
-	<h1>Questionnaire</h1>
+	<h1>Past Questionnaire</h1>
 	
-	<div align="center" class="img_container">
-		<div align="center" class="img_header">
-			<h2>Product of the day</h2>
-			<p th:text="${product}"> </p>
-		</div>
-		<!-- <img th:src="${pic} == null ? _ : @{'data:image/png;base64,'+${pic}}"> -->
-	</div>
-
-
-
 	<form method="post" action="CheckMarketingQuestions" onSubmit="return validateForm()">
 		<div class="questions_container" th:each="question : ${questions}">
 			<div style="max-width: 400px;"></div>
