@@ -46,7 +46,7 @@ public class HomePageManager extends HttpServlet {
 		}
 		
 
-		try {
+//		try {
 //			missions = mService.findMissionsByUser(user.getId());
 //			// This version has been chosen to prioritize performance and allow refresh of reviews
 //			// List<Mission> missions = mService.findMissionsByUserRefresh(user.getId());
@@ -55,7 +55,7 @@ public class HomePageManager extends HttpServlet {
 //		} catch (Exception e) {
 //			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
 //			return;
-		}
+//		}
 
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/HomePage.html";
