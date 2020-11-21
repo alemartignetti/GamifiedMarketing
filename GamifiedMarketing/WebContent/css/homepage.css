@@ -18,6 +18,20 @@ h2 {
   font-weight: 700; 
 }
 
+p {
+  font-family: Calibri;
+  font-style: normal; 
+  font-variant: normal; 
+  font-weight: 500; 
+}
+
+button {
+	font-family: Calibri;
+	font-style: normal; 
+  	font-variant: normal; 
+  	font-weight: 500; 
+}
+
 .img_avatar {
   border-radius: 50%;
   width: 50px;

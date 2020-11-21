@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Admin Homepage</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../CSS/homepage.css" th:href="@{/css/homepage.css}" />
+</head>
+<body>
+	<div align="right">
+		<p th:text="'Welcome, ' + ${session.user.username} + '!'">Welcome, user.</p>
+		<a th:href="@{/Logout}">Logout</a>
+	</div>
+	
+	<h1>Welcome to the Admin Homepage!</h1>
+
+	<div align="center">
+		<a th:href="@{/CreateQuestionnaire}">
+		<button type="button">Create Questionnaire</button>
+		</a>
+	
+	<br>
+	
+		<a th:href="@{/AccessData}">
+		<button type="button">Access Past Questionnaires</button>
+		</a>
+	
+	<br>
+	
+		<a th:href="@{/DeleteData}">
+		<button type="button">Delete Past Questionnaires</button>
+		</a>
+	</div>
+
+</body>
+</html>
