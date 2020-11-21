@@ -16,7 +16,7 @@ public class Questionnaire implements Serializable{
 	private int id;
 	
 	@Temporal(TemporalType.DATE)
-	private Date creation_date;
+	private Date ref_date;
 	
 	@ManyToOne
 	@JoinColumn(name="prod_id")
@@ -33,12 +33,12 @@ public class Questionnaire implements Serializable{
 		this.id = id;
 	}
 
-	public Date getCreation_date() {
-		return creation_date;
+	public Date getRef_date() {
+		return ref_date;
 	}
 
-	public void setCreation_date(Date creation_date) {
-		this.creation_date = creation_date;
+	public void setRef_date(Date ref_date) {
+		this.ref_date = ref_date;
 	}
 
 	public Product getProduct() {

@@ -46,36 +46,16 @@ public class HomePageManager extends HttpServlet {
 		}
 		
 
-//		try {
-//
-//			/*
-//			 * HERE WE SHOW SEVERAL WAYS TO DEAL WITH SECOND LEVEL CACHING, AKA SHARED
-//			 * CACHE. SHARED CACHE IS MAINTAINED BY THE ENTITY MANAGER FACTORY AND SERVES
-//			 * REQUESTS FROM MULTIPLE ENTITY MANAGERS. IF AN ENTITY IS DELETED OUTSIDE OF
-//			 * JPA THE SHARED CACHE MAY STILL SEE IT. THUS IF THE DATABASE IS ACCESSED ALSO
-//			 * BY OTHER NON JPA APPLICATIONS AND JPA LOCKING IS NOT USED, REFRESHING THE
-//			 * CACHE IS NEEDED TO SEE THE CURRENT DATABASE STATE. IF YOU WANT TO TEST THEM,
-//			 * CHANGE THE SERVICE METHOD USED AND LOGIN. THEN DELETE SOME MISISONS WITH THE
-//			 * MYSQL WORKBENCH, LOGOUT AND LOGIN AGAIN TO SEE THE DIFFERENT BEHAVIORS WRT
-//			 * THE SHARED CACHE
-//			 */
-//			// These versions uses a JPQ query that is translated to SQL and bypasses the
-//			// shared cache
-//			// List<Mission> missions = mService.findMissionsByUserJPQL(user.getId());
-//			// List<Mission> missions = mService.findMissionsByUserNoCache(user.getId());
-//			// This version uses navigation and fetches missions from the shared cache
-//			// (including deleted ones)
-//
+		try {
 //			missions = mService.findMissionsByUser(user.getId());
-//			// This version uses navigation and fetches missions from the shared cache
-//			// However it explicitly refreshes the status of the reported from the database
+//			// This version has been chosen to prioritize performance and allow refresh of reviews
 //			// List<Mission> missions = mService.findMissionsByUserRefresh(user.getId());
 //
 //			projects = pService.findAllProjects();
 //		} catch (Exception e) {
 //			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
 //			return;
-//		}
+		}
 
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/HomePage.html";
