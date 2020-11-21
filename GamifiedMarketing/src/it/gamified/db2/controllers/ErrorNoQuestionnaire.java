@@ -28,16 +28,12 @@ import it.gamified.db2.exceptions.NoDailyQuestionnaire;
 import it.gamified.db2.exceptions.NonUniqueDailyQuestionnaire;
 import it.gamified.db2.services.QuestionnaireService;
 
-@WebServlet("/QuestionnaireForm")
-public class QuestionnaireForm extends HttpServlet {
+@WebServlet("/ErrorNoQuestionnaire")
+public class ErrorNoQuestionnaire extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	@PersistenceContext(unitName = "GamifiedMarketingEJB")
-	private EntityManager em;
-	@EJB(name = "it.gamified.db2.services/QuestionnaireService")
-	private QuestionnaireService qService;
 
-	public QuestionnaireForm() {
+	public ErrorNoQuestionnaire() {
 		super();
 	}
 
@@ -52,7 +48,7 @@ public class QuestionnaireForm extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// If the user is not logged in (not present in session) redirect to the login
+		
 		String loginpath = getServletContext().getContextPath();
 		HttpSession session = request.getSession();
 		if (session.isNew() || session.getAttribute("user") == null) {
@@ -60,29 +56,9 @@ public class QuestionnaireForm extends HttpServlet {
 			return;
 		}
 
-		Questionnaire dailyQuest = null;
-		List<MarketingQuestion> questions = null;
-		Product product = null;
-
-		try {
-			dailyQuest = qService.findDailyQuestionnaire();
-			questions = dailyQuest.getQuestions();
-			product = dailyQuest.getProduct();
-		} catch (NonUniqueDailyQuestionnaire e) {
-			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-			return;
-		} catch (NoDailyQuestionnaire e) {
-			response.sendRedirect("ErrorNoQuestionnaire");
-			// go to ERROR page which then has a button that redirects to homepage
-		}
-
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("questions", questions);
-		ctx.setVariable("product", product);
-
-		String path = "/WEB-INF/Questionnaire.html";
+		String path = "/WEB-INF/ErrorNoQuestionnaire.html";
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 
