@@ -17,10 +17,10 @@
 	<h1>Home Page</h1>
 	
 	<h1>The product of the day is..</h1>
-	<p th:text="${dailyQuest.product.name}"></p>
+	<p th:text="${product.name}"></p>
 	
 	<img alt="photo"
-			th:src="*{'data:image/png;base64,'+ dailyQuest.getProduct().getImageData()}">
+			th:src="*{'data:image/png;base64,'+ product.getImageData()}">
 	
 	<a th:href="@{/QuestionnaireForm}">Answer to the Daily Questionnaire!</a>
 
