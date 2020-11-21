@@ -19,6 +19,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.gamified.db2.services.UserServices;
 import it.gamified.db2.entities.User;
+import it.gamified.db2.entities.User.Role;
 import it.gamified.db2.exceptions.LoginException;
 import javax.persistence.NonUniqueResultException;
 
@@ -70,9 +71,12 @@ public class CheckLogin extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
 			return;
 		}
+		
+		
 
 		// If the user exists, add info to the session and go to home page, otherwise
 		// show login page with error message
+		
 
 		String path;
 		if (user == null) {
@@ -90,8 +94,13 @@ public class CheckLogin extends HttpServlet {
 		}
 		else {
 			request.getSession().setAttribute("user", user);
+			if (user.getUrole() == Role.ADMIN) {
+				path = getServletContext().getContextPath() + "/HomeAdmin";
+				response.sendRedirect(path);
+			} else {
 			path = getServletContext().getContextPath() + "/HomePage";
 			response.sendRedirect(path);
+			}
 		}
 
 	}
