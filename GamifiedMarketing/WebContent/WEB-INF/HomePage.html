@@ -27,9 +27,9 @@
 		</div>		
 		
 
-		<div class="container" style="margin-top: 10px;" align="center">
-			<div th:each="rw : ${reviews}">
-				<div class="generic_review" align="center">
+		<div class="container" style="margin-top: 10px;" id="">
+			<div th:each="rw : ${reviews}" class="reviews_container">
+				<div class="generic_review">
 					<img class="img_avatar" src="./img/avatar.jpg"></img>
 					<p th:text="${rw.user.username}" class="user_display" />
 					<p th:text="${rw.text}" class="user_text"></p>
@@ -38,7 +38,7 @@
 			</div>
 
 			<div class="add_review_container">
-				<form action="AddComment" method="POST">
+				<form action="AddReview" method="POST">
 					<input type="text" placeholder="Insert your comment here."
 						name="add_review" required>
 					<button type="submit" class="review_submit">Post</button>

@@ -2,16 +2,15 @@ package it.gamified.db2.services;
 import java.util.List;
 import java.util.Date;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 import javax.persistence.TemporalType;
-import javax.persistence.NonUniqueResultException;
 
 import it.gamified.db2.exceptions.*;
 import it.gamified.db2.entities.Questionnaire;
+import it.gamified.db2.entities.Review;
+import it.gamified.db2.entities.User;
 
 @Stateless
 public class QuestionnaireService {
@@ -37,6 +36,19 @@ public class QuestionnaireService {
 		else {
 			return questionnaires.get(0);
 		}
+	}
+	
+	public void addReviewToQuestionnaire(Questionnaire q, String text, int uid) {
+		q = em.find(Questionnaire.class, q.getId());
+		User u = em.find(User.class, uid);
+		Review r = new Review(text, u, q); 
+		
+		System.out.println("USER: " + uid + " posting review to QUESTIONNAIRE: " + q.getId());
+		q.addReview(r);
+		u.addReview(r);
+		em.persist(q);
+		
+		System.out.println("Success");
 	}
 
 

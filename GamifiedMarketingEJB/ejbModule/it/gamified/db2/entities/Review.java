@@ -22,6 +22,17 @@ public class Review implements Serializable {
 	@JoinColumn(name = "quest_id")
 	private Questionnaire questionnaire;
 
+	public Review() {
+		super();
+	}
+	
+	public Review(String text, User user, Questionnaire quest) {
+		super();
+		this.text = text;
+		setUser(user);
+		setQuestionnaire(quest);
+	}
+
 	public int getId() {
 		return id;
 	}

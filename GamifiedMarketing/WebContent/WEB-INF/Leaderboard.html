@@ -19,7 +19,7 @@
 	</div>
 	
 	<div id="container" th:each="a : ${answers}">
-		<div id="row" th:classappend=" ${a.orderingattribute}">
+		<div class="row" th:classappend=" ${a.orderingattribute}">
 		<!-- orderattribute gives different border. Ordering done server side. -->
     		<div class="name" th:inline="text">[[${a.name}]]</div>
     		<div class="score" th:inline="text">[[${a.score}]]</div>

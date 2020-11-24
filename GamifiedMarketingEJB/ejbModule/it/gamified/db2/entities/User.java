@@ -125,6 +125,10 @@ public class User implements Serializable {
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
+	
+	public void addReview(Review review) {
+		this.reviews.add(review);
+	}
 
 	public List<Log> getLogs() {
 		return logs;

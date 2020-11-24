@@ -68,4 +68,8 @@ public class Questionnaire implements Serializable{
 		this.reviews = reviews;
 	}
 	
+	public void addReview(Review review) {
+		this.reviews.add(review);
+	}
+	
 }

@@ -78,6 +78,10 @@ public class HomePageManager extends HttpServlet {
 		System.out.println("Check null questionnaire");
 		
 		if(dailyQuest != null) {
+			// Questionnaire exists, it becomes a session variable
+			session.setAttribute("dailyQuest", dailyQuest);
+			
+			// Set thymeleaf variable to present reviews and product
 			ctx.setVariable("dailyQuest", dailyQuest);
 			ctx.setVariable("reviews", reviews);
 			ctx.setVariable("product", product);
