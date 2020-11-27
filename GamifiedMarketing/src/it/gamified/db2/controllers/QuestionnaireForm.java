@@ -1,7 +1,6 @@
 package it.gamified.db2.controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
