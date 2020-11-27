@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./css/login.css">
+<title>Registration page</title>
+</head>
+<body>
+  <h1>Welcome to the registration page!</h1>
+  <h2>Insert your information in the form below:</h2>
+  <form action="Register" method="POST" id="registration">
+ 		<div class="container">
+    		<label for="uuname"><b>Username</b></label>
+    		<input type="text" placeholder="Choose a Username" id='uuname' name="username" required>
+			<br><br>
+    		<label for="upsw"><b>Password</b></label>
+    		<input type="password" placeholder="Choose a Password" id='upsw' name="pwd" required>
+			<br><br>
+    		<label for="umail"><b>Email</b></label>
+    		<input type="email" placeholder="Enter your email" id='umail' name="email" required>
+			<br><br>
+			<button type="submit" value="register">Register</button>
+			<p th:text=" ${errorMsg}"></p>
+			<p class="email_error" id="email_msg">Email bad format</p>
+  		</div>
+	</form>
+	<h3>
+		Already have an account? <a href="Register">Register</a>
+	</h3>
+	<script>
+	$('#registration').submit(function(event) {
+	    event.preventDefault();
+	    var email_reg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+	    var emailinput = $('#umail').val();
+	    
+	    $('#umail').removeClass("error_control")
+		$('#email_msg').addClass("email_error")
+
+	    if (email_reg.test(emailinput) == false) {
+	    	$('#umail').addClass("error_control")
+	        $('#email_msg').removeClass("email_error")
+	    }
+    	$('#umail').removeClass("error_control")
+		$('#email_msg').addClass("email_error")
+	});
+	</script>
+</body>
+</html>
