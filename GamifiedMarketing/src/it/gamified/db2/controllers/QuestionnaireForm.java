@@ -23,7 +23,6 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import it.gamified.db2.entities.MarketingQuestion;
 import it.gamified.db2.entities.Product;
 import it.gamified.db2.entities.Questionnaire;
-import it.gamified.db2.entities.Review;
 import it.gamified.db2.exceptions.NoDailyQuestionnaire;
 import it.gamified.db2.exceptions.NonUniqueDailyQuestionnaire;
 import it.gamified.db2.services.QuestionnaireService;
@@ -73,8 +72,8 @@ public class QuestionnaireForm extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 			return;
 		} catch (NoDailyQuestionnaire e) {
-			response.sendRedirect("ErrorNoQuestionnaire");
-			// go to ERROR page which then has a button that redirects to homepage
+			response.sendRedirect(loginpath + "/HomePage");
+			return;
 		}
 
 		ServletContext servletContext = getServletContext();
