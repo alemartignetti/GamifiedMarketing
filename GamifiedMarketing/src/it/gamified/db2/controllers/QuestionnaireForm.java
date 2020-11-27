@@ -30,8 +30,6 @@ import it.gamified.db2.services.QuestionnaireService;
 public class QuestionnaireForm extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	@PersistenceContext(unitName = "GamifiedMarketingEJB")
-	private EntityManager em;
 	@EJB(name = "it.gamified.db2.services/QuestionnaireService")
 	private QuestionnaireService qService;
 
@@ -61,6 +59,7 @@ public class QuestionnaireForm extends HttpServlet {
 		Questionnaire dailyQuest = null;
 		List<MarketingQuestion> questions = null;
 		Product product = null;
+		boolean isDailyQuestionnaireAvailable = false;
 
 		try {
 			dailyQuest = qService.findDailyQuestionnaire();
@@ -77,8 +76,19 @@ public class QuestionnaireForm extends HttpServlet {
 
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("questions", questions);
-		ctx.setVariable("product", product);
+
+		if (dailyQuest != null) {
+			// Questionnaire exists, it becomes a session variable
+			session.setAttribute("dailyQuest", dailyQuest);
+
+			// Set thymeleaf variable to present reviews and product
+			ctx.setVariable("dailyQuest", dailyQuest);
+			ctx.setVariable("questions", questions);
+			ctx.setVariable("product", product);
+			isDailyQuestionnaireAvailable = true;
+			System.out.println("Daily Questionnaire Formatted.");
+		}
+		ctx.setVariable("questAvail", isDailyQuestionnaireAvailable);
 
 		String path = "/WEB-INF/Questionnaire.html";
 		templateEngine.process(path, ctx, response.getWriter());

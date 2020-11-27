@@ -21,11 +21,12 @@
 		<h2>The product of the day is..</h2>
 		<p class="product_name" th:text="${product.name}"></p>
 		<img alt="photo" class="product_img"
-			th:src="*{'data:image/png;base64,'+ product.getImageData()}"> 
+			th:src="*{'data:image/png;base64,'+ product.getImageData()}">
 		<div class="to_quest">
- 			<a th:href="@{/QuestionnaireForm}">Answer the Daily Questionnaire!</a>
-		</div>		
-		
+			<a th:href="@{/QuestionnaireForm}">Answer the Daily
+				Questionnaire!</a>
+		</div>
+
 
 		<div class="container" style="margin-top: 10px;" id="">
 			<div th:each="rw : ${reviews}" class="reviews_container">
