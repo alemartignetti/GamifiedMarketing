@@ -27,17 +27,19 @@
 			th:src="*{'data:image/png;base64,'+ product.getImageData()}">
 
 		<!--  TODO: display error text if there are no questions -->
-		<div align="center" th:each="quest : ${questions}">
-			<p th:text="${quest.num + '. ' + quest.text}">QUESTION TEXT</p>
-			<br>
-		</div>
-
+		<form method="post" th:action="@{/ProcessAnswers}">
+			<div align="center" th:each="quest : ${questions}">
+				<p th:text="${quest.num + '. ' + quest.text}">QUESTION TEXT</p>
+				<textarea required rows="2" cols="40"
+					th:name="${'quest_' + quest.num}"
+					placeholder="Insert answer here..."></textarea>
+			</div>
+		</form>
 	</div>
 
 	<div th:unless="${questAvail}">
 		<h2>No Daily Questionnaire Available!</h2>
 		<p align="center">Come Back tomorrow!</p>
 	</div>
-
 
 </body>
