@@ -65,6 +65,10 @@ label {
 input[type="radio"] {
   margin-top: -1px;
   vertical-align: middle;
+  font-family: Calibri;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 550;
 }
 
 /* Full-width inputs */
