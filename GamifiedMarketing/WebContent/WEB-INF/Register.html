@@ -25,25 +25,7 @@
   		</div>
 	</form>
 	<h3>
-		Already have an account? <a href="Register">Register</a>
+		Already have an account? <a href="http://localhost:8080/GamifiedMarketing/">Login!</a>
 	</h3>
-	<script>
-	$('#registration').submit(function(event) {
-	    event.preventDefault();
-	    var email_reg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-
-	    var emailinput = $('#umail').val();
-	    
-	    $('#umail').removeClass("error_control")
-		$('#email_msg').addClass("email_error")
-
-	    if (email_reg.test(emailinput) == false) {
-	    	$('#umail').addClass("error_control")
-	        $('#email_msg').removeClass("email_error")
-	    }
-    	$('#umail').removeClass("error_control")
-		$('#email_msg').addClass("email_error")
-	});
-	</script>
 </body>
 </html>
