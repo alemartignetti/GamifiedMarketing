@@ -43,6 +43,15 @@ p {
 	font-weight: 550;
 }
 
+h5 {
+	text-align: center;
+	font-size: 15px;
+	font-family: Calibri;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 600;
+}
+
 label {
 	padding: 20px;
 	text-align: center;
@@ -51,7 +60,11 @@ label {
 	font-style: normal;
 	font-variant: normal;
 	font-weight: 550;
-	vertical-align:top;
+}
+
+input[type="radio"] {
+  margin-top: -1px;
+  vertical-align: middle;
 }
 
 /* Full-width inputs */
