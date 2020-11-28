@@ -28,12 +28,37 @@
 
 		<!--  TODO: display error text if there are no questions -->
 		<form method="post" th:action="@{/ProcessAnswers}">
+			<h3>Please answer these mandatory marketing questions:</h3>
 			<div align="center" th:each="quest : ${questions}">
-				<p th:text="${quest.num + '. ' + quest.text}">QUESTION TEXT</p>
+				<label th:for="${'markquest_' + quest.num}"
+					th:text="${quest.num + '. ' + quest.text}">QUESTION TEXT</label><br>
 				<textarea required rows="2" cols="40"
-					th:name="${'quest_' + quest.num}"
+					th:name="${'markquest_' + quest.num}"
+					th:id="${'markquest_' + quest.num}"
 					placeholder="Insert answer here..."></textarea>
 			</div>
+			<h3>Additionally, you may answer these statistical questions:</h3>
+			<div align="center">
+				<p>Age:</p>
+				<input type="number" name="age" min="3" max="130" placeholder="Age">
+				<br>
+
+				<p>Sex:</p>
+				<input type="radio" name="sex" value="male">Male<br> <input
+					type="radio" name="sex" value="female">Female<br> <input
+					type="radio" name="sex" value="other">Other<br> <br>
+
+				<p>Expertise:</p>
+				<input type="radio" name="expertise" value="low">Low<br>
+				<input type="radio" name="expertise" value="medium">Medium<br>
+				<input type="radio" name="expertise" value="high">High<br>
+				<br>
+			</div>
+			<div align="center">
+				<input type="submit" value="Submit">
+				<input type="reset" value="Reset">
+			</div>
+
 		</form>
 	</div>
 
