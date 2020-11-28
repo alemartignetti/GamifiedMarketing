@@ -1,3 +1,4 @@
+<<<<<<< HEAD
  /* Bordered form */
 form {
   border: 3px solid #f1f1f1;
@@ -54,4 +55,45 @@ text_area {
 
 .error_control{
 	border: 3px solid red;
+=======
+ /* Bordered form */
+form {
+  border: 3px solid #f1f1f1;
+}
+
+/*header style*/
+h1 {
+  padding: 20px;
+  text-align: center;
+  font-size: 30px;
+  font-family: Calibri;
+  font-style: normal; 
+  font-variant: normal; 
+  font-weight: 700; 
+}
+
+h3 {
+  padding: 20px;
+  text-align: center;
+  font-size: 20px;
+  font-family: Calibri;
+  font-style: normal; 
+  font-variant: normal; 
+  font-weight: 500; 
+}
+
+
+/* Full-width inputs */
+text_area {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.error_control{
+	border: 3px solid red;
+>>>>>>> branch 'master' of https://github.com/alemartignetti/GamifiedMarketing.git
 }

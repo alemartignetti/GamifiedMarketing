@@ -25,8 +25,8 @@ public class Product implements Serializable {
 	@Lob
 	private byte[] image;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
-	private List<Questionnaire> questionnaires; 
+	@OneToOne(mappedBy = "product")
+	private Questionnaire questionnaire;
 
 	
 	public int getId() {
@@ -63,13 +63,13 @@ public class Product implements Serializable {
 	}
 
 
-	public List<Questionnaire> getQuestionnaires() {
-		return questionnaires;
+	public Questionnaire getQuestionnaire() {
+		return questionnaire;
 	}
 
 
-	public void setQuestionnaires(List<Questionnaire> questionnaires) {
-		this.questionnaires = questionnaires;
+	public void setQuestionnaire(Questionnaire questionnaire) {
+		this.questionnaire = questionnaire;
 	}
 
 

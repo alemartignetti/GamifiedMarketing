@@ -18,8 +18,8 @@ public class Questionnaire implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date ref_date;
 	
-	@ManyToOne
-	@JoinColumn(name="prod_id")
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "prod_id", referencedColumnName = "id")
 	private Product product;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = CascadeType.ALL)

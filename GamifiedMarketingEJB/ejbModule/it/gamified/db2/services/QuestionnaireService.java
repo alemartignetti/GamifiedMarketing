@@ -34,12 +34,13 @@ public class QuestionnaireService {
 			throw new NoDailyQuestionnaire("Daily Questionnaire is missing.");
 		}
 		else {
-			return questionnaires.get(0);
+			Questionnaire quest = questionnaires.get(0);
+			return quest;
 		}
 	}
 	
 	public void addReviewToQuestionnaire(Questionnaire q, String text, int uid) {
-		q = em.find(Questionnaire.class, q.getId());
+		em.refresh(em.merge(q));
 		User u = em.find(User.class, uid);
 		Review r = new Review(text, u, q); 
 		
