@@ -60,6 +60,7 @@ public class QuestionnaireForm extends HttpServlet {
 		List<MarketingQuestion> questions = null;
 		Product product = null;
 		boolean isDailyQuestionnaireAvailable = false;
+		boolean areQuestionsAvailable = false;
 
 		try {
 			dailyQuest = qService.findDailyQuestionnaire();
@@ -86,9 +87,13 @@ public class QuestionnaireForm extends HttpServlet {
 			ctx.setVariable("questions", questions);
 			ctx.setVariable("product", product);
 			isDailyQuestionnaireAvailable = true;
+			areQuestionsAvailable = !questions.isEmpty();
+			System.out.println("Are there questions? " + areQuestionsAvailable);
 			System.out.println("Daily Questionnaire Formatted.");
 		}
-		ctx.setVariable("questAvail", isDailyQuestionnaireAvailable);
+		
+		ctx.setVariable("questAvail", isDailyQuestionnaireAvailable); // is there a questionnaire?
+		ctx.setVariable("questionsAvail", areQuestionsAvailable); // are there questions?
 
 		String path = "/WEB-INF/Questionnaire.html";
 		templateEngine.process(path, ctx, response.getWriter());
