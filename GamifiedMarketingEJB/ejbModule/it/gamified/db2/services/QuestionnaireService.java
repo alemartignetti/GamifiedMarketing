@@ -1,5 +1,8 @@
 package it.gamified.db2.services;
+
 import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.ejb.Stateless;
@@ -20,38 +23,67 @@ public class QuestionnaireService {
 	public QuestionnaireService() {
 	}
 
-	//We chose this type of method for retrieving the daily questionnaire
-	//Might be a problem for midnight
+	// We chose this type of method for retrieving the daily questionnaire
+	// Might be a problem for midnight
 	public Questionnaire findDailyQuestionnaire() throws NonUniqueDailyQuestionnaire, NoDailyQuestionnaire {
 		Date currentDate = new Date();
-		List<Questionnaire> questionnaires = em.createQuery("Select q from Questionnaire q "
-				+ "where q.ref_date = :date", Questionnaire.class).setParameter("date", currentDate, TemporalType.DATE).getResultList();
+		List<Questionnaire> questionnaires = em
+				.createQuery("Select q from Questionnaire q " + "where q.ref_date = :date", Questionnaire.class)
+				.setParameter("date", currentDate, TemporalType.DATE).getResultList();
 		System.out.println("Number of daily questionnaire: " + Integer.toString(questionnaires.size()));
-		if(questionnaires.size() > 1) {
-			throw new NonUniqueDailyQuestionnaire("Double Questionnaire of the day found. This is illegal by database constraint.");
-		}
-		else if (questionnaires.isEmpty()) {
+		if (questionnaires.size() > 1) {
+			throw new NonUniqueDailyQuestionnaire(
+					"Double Questionnaire of the day found. This is illegal by database constraint.");
+		} else if (questionnaires.isEmpty()) {
 			throw new NoDailyQuestionnaire("Daily Questionnaire is missing.");
+		} else {
+			Questionnaire quest = questionnaires.get(0);
+			return quest;
 		}
-		else {
+	}
+
+	public List<Questionnaire> findAllQuestionnaires() {
+		List<Questionnaire> questionnaires = em.createQuery("Select q from Questionnaire q", Questionnaire.class)
+				.getResultList();
+		return questionnaires;
+	}
+
+	// (String date) in format 'yyyy-MM-dd'
+	public Questionnaire findQuestionnaire(String date)
+			throws NonUniqueDailyQuestionnaire, NoDailyQuestionnaire, ParseException {
+		Date date_obj = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+		List<Questionnaire> questionnaires = em
+				.createQuery("Select q from Questionnaire q " + "where q.ref_date = :date", Questionnaire.class)
+				.setParameter("date", date_obj, TemporalType.DATE).getResultList();
+		System.out.println("Number of daily questionnaire: " + Integer.toString(questionnaires.size()));
+		if (questionnaires.size() > 1) {
+			throw new NonUniqueDailyQuestionnaire(
+					"Double Questionnaire of the day found. This is illegal by database constraint.");
+		} else if (questionnaires.isEmpty()) {
+			throw new NoDailyQuestionnaire("Daily Questionnaire is missing.");
+		} else {
 			Questionnaire quest = questionnaires.get(0);
 			return quest;
 		}
 	}
 	
+	public void deleteQuestionnaire(int id) {
+		Questionnaire toBeDeleted = em.find(Questionnaire.class, id);
+		em.remove(toBeDeleted);
+	}
+
 	public void addReviewToQuestionnaire(Questionnaire q, String text, int uid) {
 		em.refresh(em.merge(q));
 		User u = em.find(User.class, uid);
-		Review r = new Review(text, u, q); 
-		
+		Review r = new Review(text, u, q);
+
 		System.out.println("USER: " + uid + " posting review to QUESTIONNAIRE: " + q.getId());
 		q.addReview(r);
 		u.addReview(r);
 		em.persist(q);
-		
+
 		System.out.println("Success");
 	}
-
 
 //	// If a mission is deleted by a concurrent transaction this method
 //	// bypasses the cache and sees the correct list. Sorting is done by the query
