@@ -34,8 +34,9 @@
 					<div th:each="quest : ${questions}">
 						<label th:for="${'markquest_' + quest.num}"
 							th:text="${quest.num + '. ' + quest.text}">QUESTION TEXT</label><br>
+						<input type='hidden' name='id_question' value="quest.id"/>
 						<textarea required rows="2" cols="40"
-							th:name="${'markquest_' + quest.id}"
+							th:name="${'markquest_' + quest.num}"
 							th:id="${'markquest_' + quest.num}"
 							placeholder="Insert answer here..."></textarea>
 					</div>
