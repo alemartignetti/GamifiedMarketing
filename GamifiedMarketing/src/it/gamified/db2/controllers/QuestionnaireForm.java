@@ -19,11 +19,16 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import it.gamified.db2.entities.Answer;
 import it.gamified.db2.entities.MarketingQuestion;
 import it.gamified.db2.entities.Product;
 import it.gamified.db2.entities.Questionnaire;
+import it.gamified.db2.entities.User;
+import it.gamified.db2.exceptions.AlreadyAnswered;
+import it.gamified.db2.exceptions.AnswerDuplicate;
 import it.gamified.db2.exceptions.NoDailyQuestionnaire;
 import it.gamified.db2.exceptions.NonUniqueDailyQuestionnaire;
+import it.gamified.db2.services.AnswerService;
 import it.gamified.db2.services.QuestionnaireService;
 
 @WebServlet("/QuestionnaireForm")
@@ -32,6 +37,8 @@ public class QuestionnaireForm extends HttpServlet {
 	private TemplateEngine templateEngine;
 	@EJB(name = "it.gamified.db2.services/QuestionnaireService")
 	private QuestionnaireService qService;
+	@EJB(name = "it.gamified.db2.services/AnswerService")
+	private AnswerService aService;
 
 	public QuestionnaireForm() {
 		super();
@@ -56,6 +63,7 @@ public class QuestionnaireForm extends HttpServlet {
 			return;
 		}
 
+		User user = (User) session.getAttribute("user");
 		Questionnaire dailyQuest = null;
 		List<MarketingQuestion> questions = null;
 		Product product = null;
@@ -64,14 +72,26 @@ public class QuestionnaireForm extends HttpServlet {
 
 		try {
 			dailyQuest = qService.findDailyQuestionnaire();
+			Answer answer = aService.getAnswerByUserAndQuestionnaire(dailyQuest.getId(), user.getId());
+			
+			if(answer != null) {
+				throw new AlreadyAnswered("User already answered to the dailyQuestionnaire.");
+			}
 			questions = dailyQuest.getQuestions();
 			product = dailyQuest.getProduct();
-		} catch (NonUniqueDailyQuestionnaire e) {
+		} catch (NonUniqueDailyQuestionnaire | AnswerDuplicate e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 			return;
 		} catch (NoDailyQuestionnaire e) {
 			response.sendRedirect(loginpath + "/HomePage");
+			return;
+		} catch (AlreadyAnswered e) {
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("greetMsg", "You've already answered the questionnaire, thank you!");
+			String path = "/WEB-INF/ThankYou.html";
+			templateEngine.process(path, ctx, response.getWriter());
 			return;
 		}
 

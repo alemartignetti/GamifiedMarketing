@@ -117,6 +117,10 @@ public class User implements Serializable {
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
+	
+	public void addAnswer(Answer answer) {
+		this.answers.add(answer);
+	}
 
 	public List<Review> getReviews() {
 		return reviews;

@@ -23,6 +23,16 @@ public class MarketingAnswer implements Serializable{
 	@JoinColumn(name="answer_id")
 	private Answer answer;
 
+	public MarketingAnswer(Answer answer, MarketingQuestion question, String text) {
+		setAnswer(answer);
+		setQuestion(question);
+		setText(text);
+	}
+	
+	public MarketingAnswer() {
+		
+	}
+	
 	public int getId() {
 		return id;
 	}

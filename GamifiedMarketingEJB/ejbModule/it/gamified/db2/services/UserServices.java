@@ -71,4 +71,8 @@ public class UserServices {
 
         return u;
     }
+	
+	public void blockUser(int userId) {
+		User user = em.find(User.class, userId);
+	}
 }

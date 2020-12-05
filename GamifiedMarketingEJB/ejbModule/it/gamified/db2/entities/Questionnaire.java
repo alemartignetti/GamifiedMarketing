@@ -1,6 +1,7 @@
 package it.gamified.db2.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -53,6 +54,9 @@ public class Questionnaire implements Serializable{
 	}
 
 	public List<MarketingQuestion> getQuestions() {
+		if(questions == null) {
+			return new ArrayList<MarketingQuestion>();
+		}
 		return questions;
 	}
 

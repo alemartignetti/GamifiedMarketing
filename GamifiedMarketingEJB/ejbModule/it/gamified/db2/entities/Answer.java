@@ -1,6 +1,7 @@
 package it.gamified.db2.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,8 +28,17 @@ public class Answer implements Serializable{
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "answer", cascade = CascadeType.ALL)
 	private List<MarketingAnswer> answers;
 	
-	private int age;
-	private String sex;
+	private Integer age;
+	
+	public enum Sex {
+	    MALE,
+	    FEMALE,
+	    OTHER;
+	}
+	
+	@Column(columnDefinition = "ENUM('MALE', 'FEMALE', 'OTHER')")
+	@Enumerated(EnumType.STRING)
+	private Sex sex;
 	
 	public enum Expertise {
 	    LOW,
@@ -43,6 +53,18 @@ public class Answer implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
 
+	public Answer(User user, Questionnaire quest) {
+		
+		setUser(user);
+		setQuestionnaire(quest);
+		setTimestamp(new Date());
+		
+	}
+	
+	public Answer() {
+		
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -67,19 +89,19 @@ public class Answer implements Serializable{
 		this.questionnaire = questionnaire;
 	}
 
-	public int getAge() {
+	public Integer getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
+	public void setAge(Integer age) {
 		this.age = age;
 	}
 
-	public String getSex() {
+	public Sex getSex() {
 		return sex;
 	}
 
-	public void setSex(String sex) {
+	public void setSex(Sex sex) {
 		this.sex = sex;
 	}
 
@@ -105,5 +127,12 @@ public class Answer implements Serializable{
 
 	public void setAnswers(List<MarketingAnswer> answers) {
 		this.answers = answers;
+	}
+	
+	public void addAnswer(MarketingAnswer answer) {
+		if(this.answers == null || this.answers.isEmpty()) {
+			this.answers = new ArrayList<MarketingAnswer>();
+		}
+		this.getAnswers().add(answer);
 	}
 }

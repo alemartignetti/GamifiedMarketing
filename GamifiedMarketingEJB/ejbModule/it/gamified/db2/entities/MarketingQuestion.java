@@ -5,6 +5,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "marketingquestion", schema = "db_gamifiedschema")
+
+@NamedQuery(name = "MarketingQuestion.questionByQuestionnaire", query = "SELECT m FROM MarketingQuestion m WHERE m.questionnaire = ?1")
 public class MarketingQuestion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -56,4 +58,16 @@ public class MarketingQuestion implements Serializable {
 		this.questionnaire = questionnaire;
 	}
    
+	public int escapeMarkNum(String nameFromHtml) {
+		String prefix = "markquestid_";
+		if (nameFromHtml != null && nameFromHtml.startsWith(prefix)) {
+			try {
+				String intString = nameFromHtml.split(prefix)[1];
+				return Integer.parseInt(intString);
+			} catch(NumberFormatException e) {
+				return -1;
+			}
+	    }
+	    return -1;
+	}
 }
