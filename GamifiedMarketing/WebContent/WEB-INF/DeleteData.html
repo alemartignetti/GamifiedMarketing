@@ -9,9 +9,8 @@
 	<div align="right">
 		<p th:text="'Welcome, ' + ${session.user.username} + '!'">Welcome,
 			user.</p>
-		<a th:href="@{/Logout}">Logout</a>
-		<br>
-		<a th:href="@{/HomeAdmin}">Home</a>
+		<a th:href="@{/Logout}">Logout</a> <br> <a
+			th:href="@{/HomeAdmin}">Home</a>
 	</div>
 
 	<h1>Delete past questionnaires and data</h1>
@@ -31,8 +30,9 @@
 					<td th:text="${quest.id}">QUEST_ID</td>
 					<td th:text="${#dates.format(quest.ref_date, 'dd-MM-yyyy')}">DATE</td>
 					<td th:text="${quest.product.name}">PRODUCT</td>
-					<td><a th:href="@{/DeleteSubmit(quest_id = ${quest.id})}">
-						<button type="button">Delete</button>
+					<td th:unless="${#dates.format(#dates.createNow(), 'dd-MM-yyyy') == #dates.format(quest.ref_date, 'dd-MM-yyyy')}">
+						<a th:href="@{/DeleteSubmit(quest_id = ${quest.id})}">
+							<button type="button">Delete</button>
 						</a>
 					</td>
 				</tr>
