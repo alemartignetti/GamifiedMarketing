@@ -3,8 +3,6 @@ package it.gamified.db2.controllers;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.EJB;
