@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Delete Data</title>
+<title>Access Data</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../CSS/delete.css" th:href="@{/css/delete.css}" />
 </head>
@@ -13,7 +13,7 @@
 			th:href="@{/HomeAdmin}">Home</a>
 	</div>
 
-	<h1>Delete past questionnaires and data</h1>
+	<h1>Access past questionnaires and data</h1>
 
 	<div align="center">
 		<table>
@@ -30,9 +30,9 @@
 					<td th:text="${quest.id}">QUEST_ID</td>
 					<td th:text="${#dates.format(quest.ref_date, 'dd-MM-yyyy')}">DATE</td>
 					<td th:text="${quest.product.name}">PRODUCT</td>
-					<td th:if="${#dates.format(#dates.createNow(), 'dd-MM-yyyy') > #dates.format(quest.ref_date, 'dd-MM-yyyy')}">
-						<a th:href="@{/DeleteSubmit(quest_id = ${quest.id})}">
-							<button type="button">Delete</button>
+					<td>
+						<a th:href="@{/AccessSubmit(quest_id = ${quest.id})}">
+							<button type="button">Show</button>
 						</a>
 					</td>
 				</tr>

@@ -67,6 +67,24 @@ public class QuestionnaireService {
 		}
 	}
 	
+	public Questionnaire findQuestionnaire(int quest_id)
+			throws NonUniqueDailyQuestionnaire, NoDailyQuestionnaire, ParseException {
+		
+		List<Questionnaire> questionnaires = em
+				.createQuery("Select q from Questionnaire q " + "where q.id = :quest_id", Questionnaire.class)
+				.setParameter("quest_id", quest_id).getResultList();
+		System.out.println("Number of daily questionnaire: " + Integer.toString(questionnaires.size()));
+		if (questionnaires.size() > 1) {
+			throw new NonUniqueDailyQuestionnaire(
+					"Double Questionnaire of the day found. This is illegal by database constraint.");
+		} else if (questionnaires.isEmpty()) {
+			throw new NoDailyQuestionnaire("Daily Questionnaire is missing.");
+		} else {
+			Questionnaire quest = questionnaires.get(0);
+			return quest;
+		}
+	}
+	
 	public void deleteQuestionnaire(int id) {
 		Questionnaire toBeDeleted = em.find(Questionnaire.class, id);
 		em.remove(toBeDeleted);
