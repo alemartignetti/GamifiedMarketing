@@ -1,0 +1,44 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Delete Data</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../CSS/delete.css" th:href="@{/css/delete.css}" />
+</head>
+<body>
+	<div align="right">
+		<p th:text="'Welcome, ' + ${session.user.username} + '!'">Welcome,
+			user.</p>
+		<a th:href="@{/Logout}">Logout</a> <br> <a
+			th:href="@{/HomeAdmin}">Home</a>
+	</div>
+
+	<h1>Delete past questionnaires and data</h1>
+
+	<div align="center">
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Date</th>
+					<th>Product</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody th:each="quest : ${questionnaires}">
+				<tr>
+					<td th:text="${quest.id}">QUEST_ID</td>
+					<td th:text="${#dates.format(quest.ref_date, 'dd-MM-yyyy')}">DATE</td>
+					<td th:text="${quest.product.name}">PRODUCT</td>
+					<td th:if="${#dates.format(#dates.createNow(), 'dd-MM-yyyy') > #dates.format(quest.ref_date, 'dd-MM-yyyy')}">
+						<a th:href="@{/DeleteSubmit(quest_id = ${quest.id})}">
+							<button type="button">Delete</button>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</body>
+</html>

@@ -5,24 +5,17 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
-import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TemporalType;
-import javax.transaction.UserTransaction;
-
-import org.apache.cxf.transport.servlet.servicelist.UnformattedServiceListWriter;
 
 import it.gamified.db2.exceptions.*;
 import it.gamified.db2.entities.Answer;
 import it.gamified.db2.entities.MarketingAnswer;
 import it.gamified.db2.entities.MarketingQuestion;
 import it.gamified.db2.entities.Questionnaire;
-import it.gamified.db2.entities.Review;
 import it.gamified.db2.entities.User;
 
 import java.util.HashMap;
@@ -135,4 +128,15 @@ public class AnswerService {
 
 		System.out.println("Done!");
 	}
+
+	public List<Answer> findAnswers(Questionnaire quest) {
+		List<Answer> answers = em.createQuery("Select a from Answer a " + "where a.questionnaire = :quest", Answer.class)
+				.setParameter("quest", quest).getResultList();
+
+		if (answers.isEmpty())
+			System.out.println("EMPTY");
+		
+		return answers;
+	}
+
 }
