@@ -9,6 +9,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="questionnaire", schema="db_gamifiedschema")
+@NamedQueries({
+	@NamedQuery(name = "Questionnaire.getQuestionnaire", query = "Select q from Questionnaire q where q.ref_date = :date")
+})
 public class Questionnaire implements Serializable{
 	private static final long serialVersionUID = 1L;
 	

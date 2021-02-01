@@ -74,5 +74,6 @@ public class UserServices {
 	
 	public void blockUser(int userId) {
 		User user = em.find(User.class, userId);
+		user.setBlocked(true);
 	}
 }
