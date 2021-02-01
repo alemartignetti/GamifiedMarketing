@@ -2,6 +2,8 @@ package it.gamified.db2.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,14 +37,20 @@ public class User implements Serializable {
 	    ADMIN;
 	}
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+	// **OWNER RELATIONSHIP**
+	// ----- FETCH TYPE -----
+	// The fetch type is LAZY since we do not want to use relationship during normal use
+	// ----- CASCADE --------
+	// REFRESH: it is used for checking if the user has answered to the questionnaire straight away
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
 	private List<Answer> answers;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Review> reviews;
+	// **POSTED BY RELATIONSHIP**
+	// Not implemented
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Log> logs;
+	// **POSTED BY RELATIONSHIP**
+	// Not implemented
 
 	@Column(columnDefinition = "ENUM('USER', 'ADMIN')")
 	@Enumerated(EnumType.STRING)
@@ -118,28 +126,10 @@ public class User implements Serializable {
 		this.answers = answers;
 	}
 	
+	// Answer manage user addition
 	public void addAnswer(Answer answer) {
+		if(answers == null) answers = new ArrayList<Answer>();
 		this.answers.add(answer);
-	}
-
-	public List<Review> getReviews() {
-		return reviews;
-	}
-
-	public void setReviews(List<Review> reviews) {
-		this.reviews = reviews;
-	}
-	
-	public void addReview(Review review) {
-		this.reviews.add(review);
-	}
-
-	public List<Log> getLogs() {
-		return logs;
-	}
-
-	public void setLogs(List<Log> logs) {
-		this.logs = logs;
 	}
 
 	public Role getUrole() {

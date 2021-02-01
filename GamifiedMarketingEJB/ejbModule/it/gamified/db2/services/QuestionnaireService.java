@@ -91,7 +91,8 @@ public class QuestionnaireService {
 	}
 
 	public void addReviewToQuestionnaire(Questionnaire q, String text, int uid) {
-		em.refresh(em.merge(q));
+		//em.refresh(em.merge(q));
+		q = em.find(Questionnaire.class, q.getId());
 		User u = em.find(User.class, uid);
 		Review r = new Review(text, u, q);
 

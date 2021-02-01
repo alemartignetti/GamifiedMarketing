@@ -19,15 +19,45 @@ public class Questionnaire implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date ref_date;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "prod_id", referencedColumnName = "id")
-	private Product product;
+	private String product_name;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = CascadeType.ALL)
+	@Basic(fetch = FetchType.LAZY)
+	@Lob
+	private byte[] image;
+	
+	// **BELONGING RELATIONSHIP**
+	// ----- FETCH TYPE -----
+	// The fetch type is EAGER since we need navigation to show questions
+	// ----- CASCADE --------
+	// REMOVE: We need to remove each questions when needed
+	// ORPHAN REMOVAL: Set to true since questions not linked to a given questionnaire are deleted
+	// PERSIST: When questionnaire is created, AT LEAST one question is inserted
+	// ----- ORDERING --------
+	// Ordered by NUM
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true)
+	@OrderBy("num ASC")
 	private List<MarketingQuestion> questions;
+
+	// **POSTED TO RELATIONSHIP**
+	// ----- FETCH TYPE -----
+	// The fetch type is EAGER since we need navigation to show the reviews on HomePage
+	// ----- CASCADE --------
+	// REMOVE: We need to remove each questions when needed
+	// ORPHAN REMOVAL: Set to true since questions not linked to a given questionnaire are deleted
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Review> reviews;
+	
+	// **REFERRING TO RELATIONSHIP**
+	// ----- FETCH TYPE -----
+	// The fetch type is LAZY since we do not want to bring all the answers in questionnaire during normal navigation
+	// ----- CASCADE --------
+	// REMOVE: We need to remove each questions when needed
+	// ORPHAN REMOVAL: Set to true since questions not linked to a given questionnaire are deleted
+	
+	@OneToMany(mappedBy = "questionnaire", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	private List<Answer> answers;	
 
 	public int getId() {
 		return id;
@@ -44,14 +74,7 @@ public class Questionnaire implements Serializable{
 	public void setRef_date(Date ref_date) {
 		this.ref_date = ref_date;
 	}
-
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
+	
 
 	public List<MarketingQuestion> getQuestions() {
 		if(questions == null) {
@@ -74,6 +97,42 @@ public class Questionnaire implements Serializable{
 	
 	public void addReview(Review review) {
 		this.reviews.add(review);
+		review.setQuestionnaire(this);
 	}
+	
+	public void addQuestion(MarketingQuestion question) {
+		this.questions.add(question);
+		question.setQuestionnaire(this);
+	}
+	
+	public void addAnswer(Answer answer) {
+		this.answers.add(answer);
+		answer.setQuestionnaire(this);
+	}
+
+	public String getProduct_name() {
+		return product_name;
+	}
+
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+	
 	
 }

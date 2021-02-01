@@ -2,6 +2,7 @@ package it.gamified.db2.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -16,6 +17,12 @@ public class Log implements Serializable{
 	
 	@Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
+	
+	// **LOGGING RELATIONSHIP**
+	// ----- FETCH TYPE -----
+	// The fetch type is EAGER since we SHOULD use it in an hypotetical functionality not requested but implemented
+	// ----- CASCADE --------
+	// Default
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id")

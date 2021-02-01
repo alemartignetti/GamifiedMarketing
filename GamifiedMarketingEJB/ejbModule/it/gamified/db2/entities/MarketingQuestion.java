@@ -1,12 +1,13 @@
 package it.gamified.db2.entities;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "marketingquestion", schema = "db_gamifiedschema")
 
-@NamedQuery(name = "MarketingQuestion.questionByQuestionnaire", query = "SELECT m FROM MarketingQuestion m WHERE m.questionnaire = ?1")
 public class MarketingQuestion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -22,9 +23,19 @@ public class MarketingQuestion implements Serializable {
 
 	private String text;
 	
+	// **BELONGING RELATIONSHIP**
+	// Not used but needed to map other direction
+	
 	@ManyToOne
 	@JoinColumn(name="quest_id")
 	private Questionnaire questionnaire;
+	
+	// **ANSWERING RELATIONSHIP**
+	// Not used but needed to map other direction
+	
+	@ManyToMany
+	@JoinTable(name = "answering", joinColumns = @JoinColumn(name = "mkquest_id"), inverseJoinColumns = @JoinColumn(name = "answer_id"))
+	private List<Answer> answers;
 
 	public int getId() {
 		return id;
@@ -69,5 +80,22 @@ public class MarketingQuestion implements Serializable {
 			}
 	    }
 	    return -1;
+	}
+
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+	
+	//Managed by answer
+	public void addAnswer(Answer answer) {
+		this.answers.add(answer);
+	}
+	
+	public void removeAnswer(Answer answer) {
+		this.answers.remove(answer);
 	}
 }

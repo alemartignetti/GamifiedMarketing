@@ -25,6 +25,7 @@ import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.InvalidQuestionAnswer;
 import it.gamified.db2.exceptions.OffensiveWord;
 import it.gamified.db2.exceptions.TransactionError;
+import it.gamified.db2.entities.OptionalQuest;
 import it.gamified.db2.services.AnswerService;
 import it.gamified.db2.services.MarketingQuestionService;
 import it.gamified.db2.services.UserServices;
@@ -86,7 +87,6 @@ public class AnswerSubmit extends HttpServlet {
 		// Get parameters list
 		User user = (User) session.getAttribute("user");
 		HashMap<Integer, String> answersQuestionnaire = new HashMap<Integer, String>();
-		HashMap<String, String> optionalAnswer = new HashMap<String, String>();
 		
 		// Get id by hidden input value
 		String baseString = "markquest_";
@@ -119,9 +119,7 @@ public class AnswerSubmit extends HttpServlet {
 		String expertise = StringEscapeUtils.escapeJava(request.getParameter("expertise"));
 		String age = StringEscapeUtils.escapeJava(request.getParameter("age"));
 		
-		optionalAnswer.put("sex", sex);
-		optionalAnswer.put("expertise", expertise);
-		optionalAnswer.put("age", age);
+		OptionalQuest optionalAnswer = new OptionalQuest(age, sex, expertise);
 		
 		try {
 			aService.submitAnswer(dailyQuest.getId(), user.getId(), answersQuestionnaire, optionalAnswer);
