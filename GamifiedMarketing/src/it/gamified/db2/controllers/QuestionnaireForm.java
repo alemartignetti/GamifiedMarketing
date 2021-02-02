@@ -64,7 +64,6 @@ public class QuestionnaireForm extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		Questionnaire dailyQuest = null;
 		List<MarketingQuestion> questions = null;
-		Product product = null;
 		boolean isDailyQuestionnaireAvailable = false;
 		boolean areQuestionsAvailable = false;
 
@@ -103,7 +102,6 @@ public class QuestionnaireForm extends HttpServlet {
 			// Set thymeleaf variable to present reviews and product
 			ctx.setVariable("dailyQuest", dailyQuest);
 			ctx.setVariable("questions", questions);
-			ctx.setVariable("product", product);
 			isDailyQuestionnaireAvailable = true;
 			areQuestionsAvailable = !questions.isEmpty();
 			System.out.println("Are there questions? " + areQuestionsAvailable);

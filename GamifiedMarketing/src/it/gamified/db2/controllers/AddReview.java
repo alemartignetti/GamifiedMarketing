@@ -59,7 +59,7 @@ public class AddReview extends HttpServlet {
 		}
 		
 		User u = (User) session.getAttribute("user");
-		Questionnaire q = (Questionnaire) session.getAttribute("dailyQuest");
+		Questionnaire q = qService.findDailyQuestionnaire();
 		
 		String reviewText = null;
 		

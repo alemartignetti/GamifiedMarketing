@@ -22,10 +22,10 @@
 		<div th:if="${questionsAvail}">
 			<h2>
 				Product of the day: <span class="product_name"
-					th:text="${product.name}">ERROR</span>
+					th:text="${dailyQuest.product_name}">ERROR</span>
 			</h2>
 			<img alt="photo" class="product_img"
-				th:src="*{'data:image/png;base64,'+ product.getImageData()}">
+				th:src="*{'data:image/png;base64,'+ dailyQuest.getImageData()}">
 
 			<form id="regForm" method="post" action="AnswerSubmit">
 

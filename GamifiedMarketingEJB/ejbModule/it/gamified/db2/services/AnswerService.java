@@ -30,11 +30,37 @@ public class AnswerService {
 	private EntityManager em;
 	@EJB(name = "it.gamified.db2.services/UserService")
 	private UserServices uService;
+	@EJB(name = "it.gamified.db2.services/QuestionnaireService")
+	private QuestionnaireService qService;
 
 	@Resource
 	UserTransaction tx;
 	
 	public AnswerService() {
+	}
+	
+	public Answer getDailyAnswer(int userId) throws AnswerDuplicate, Exception {
+		Questionnaire questionnaire;
+		try {
+			questionnaire = qService.findDailyQuestionnaire();
+		} catch (NonUniqueDailyQuestionnaire | NoDailyQuestionnaire e) {
+			e.printStackTrace();
+			throw new Exception("Unexpected Error");
+		}
+		User user = em.find(User.class, userId);
+
+		List<Answer> answer = em
+				.createQuery("Select a from Answer a " + "where (a.questionnaire = :quest) and (a.user = :user)",
+						Answer.class)
+				.setParameter("user", user).setParameter("quest", questionnaire).getResultList();
+
+		if (answer.isEmpty()) {
+			return null;
+		} else if (answer.size() > 1) {
+			throw new AnswerDuplicate("More than one answer in DB! Integrity constraint violation.");
+		} else {
+			return answer.get(0);
+		}
 	}
 
 	public Answer getAnswerByUserAndQuestionnaire(int questId, int userId) throws AnswerDuplicate {

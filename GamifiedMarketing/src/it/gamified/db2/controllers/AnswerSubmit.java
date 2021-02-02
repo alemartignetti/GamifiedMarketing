@@ -71,7 +71,7 @@ public class AnswerSubmit extends HttpServlet {
 		
 		Questionnaire dailyQuest = null;
 		try {
-			dailyQuest = (Questionnaire) session.getAttribute("dailyQuest");
+			dailyQuest = qService.findDailyQuestionnaire();
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Tentative Submit failed due to dailyQuest being of wrong type.");
@@ -125,6 +125,15 @@ public class AnswerSubmit extends HttpServlet {
 			aService.submitAnswer(dailyQuest.getId(), user.getId(), answersQuestionnaire, optionalAnswer);
 		} catch(OffensiveWord e) {
 			uService.blockUser(user.getId());
+			//Add error page for blocked user
+			
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("offensivemsg", "Do you feel funny? So rude by you to say that!\nLearn to behave next time.");
+			String path = "/WEB-INF/Offensive.html";
+			templateEngine.process(path, ctx, response.getWriter());
+			return;
+			
 		} catch(InvalidQuestionAnswer e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Answer to non existent question.");

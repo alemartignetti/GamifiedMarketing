@@ -2,6 +2,7 @@ package it.gamified.db2.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -123,6 +124,10 @@ public class Questionnaire implements Serializable{
 
 	public byte[] getImage() {
 		return image;
+	}
+	
+	public String getImageData() {
+		return Base64.getMimeEncoder().encodeToString(image);
 	}
 
 	public void setImage(byte[] image) {

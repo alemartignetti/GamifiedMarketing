@@ -83,8 +83,7 @@ public class QuestionnaireService {
 
 		System.out.println("USER: " + uid + " posting review to QUESTIONNAIRE: " + q.getId());
 		q.addReview(r);
-		u.addReview(r);
-		em.persist(q);
+		em.persist(r);
 
 		System.out.println("Success");
 	}

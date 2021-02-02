@@ -21,15 +21,7 @@ public class LogService {
 
 	public LogService() {
 	}
-
-	public List<Answer> findLogs(Questionnaire quest) {
-		List<Answer> answers = em.createQuery("Select a from Answer a " + "where a.questionnaire = :quest", Answer.class)
-				.setParameter("quest", quest).getResultList();
-
-		if (answers.isEmpty())
-			System.out.println("EMPTY");
-		
-		return answers;
-	}
+	
+	
 
 }
