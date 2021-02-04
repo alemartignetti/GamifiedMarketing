@@ -50,7 +50,7 @@ public class Questionnaire implements Serializable{
 	// REMOVE: We need to remove each questions when needed
 	// ORPHAN REMOVAL: Set to true since questions not linked to a given questionnaire are deleted
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = {CascadeType.REMOVE}, orphanRemoval = true)
 	private List<Review> reviews;
 	
 	// **REFERRING TO RELATIONSHIP**
