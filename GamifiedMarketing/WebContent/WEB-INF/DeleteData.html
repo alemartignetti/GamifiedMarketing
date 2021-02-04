@@ -25,8 +25,8 @@
 					<th></th>
 				</tr>
 			</thead>
-			<tbody th:each="quest : ${questionnaires}">
-				<tr>
+			<tbody>
+				<tr th:each="quest : ${questionnaires}">
 					<td th:text="${quest.id}">QUEST_ID</td>
 					<td th:text="${#dates.format(quest.ref_date, 'dd-MM-yyyy')}">DATE</td>
 					<td th:text="${quest.product.name}">PRODUCT</td>

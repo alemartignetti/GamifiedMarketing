@@ -10,6 +10,7 @@ import javax.persistence.TemporalType;
 
 import it.gamified.db2.exceptions.*;
 import it.gamified.db2.entities.Answer;
+import it.gamified.db2.entities.Log;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.Review;
 import it.gamified.db2.entities.User;
@@ -22,14 +23,14 @@ public class LogService {
 	public LogService() {
 	}
 
-	public List<Answer> findLogs(Questionnaire quest) {
-		List<Answer> answers = em.createQuery("Select a from Answer a " + "where a.questionnaire = :quest", Answer.class)
-				.setParameter("quest", quest).getResultList();
-
-		if (answers.isEmpty())
-			System.out.println("EMPTY");
+	public List<Log> findLogs(Questionnaire quest) {
+		Date ref_date = quest.getRef_date();
 		
-		return answers;
+		List<Log> logs = em
+				.createQuery("Select l from Log l " + "where l.timestamp = :date", Log.class)
+				.setParameter("date", ref_date, TemporalType.DATE).getResultList();
+		
+		return logs;
 	}
 
 }

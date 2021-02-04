@@ -20,6 +20,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.gamified.db2.entities.Answer;
+import it.gamified.db2.entities.Log;
 import it.gamified.db2.entities.MarketingQuestion;
 import it.gamified.db2.entities.Product;
 import it.gamified.db2.entities.Questionnaire;
@@ -27,6 +28,7 @@ import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.NoDailyQuestionnaire;
 import it.gamified.db2.exceptions.NonUniqueDailyQuestionnaire;
 import it.gamified.db2.services.AnswerService;
+import it.gamified.db2.services.LogService;
 import it.gamified.db2.services.QuestionnaireService;
 
 @WebServlet("/AccessSubmit")
@@ -37,6 +39,8 @@ public class AccessSubmit extends HttpServlet {
 	private QuestionnaireService qService;
 	@EJB(name = "it.gamified.db2.services/AnswerService")
 	private AnswerService aService;
+	@EJB(name = "it.gamified.db2.services/LogService")
+	private LogService lService;
 
 	public AccessSubmit() {
 		super();
@@ -69,12 +73,15 @@ public class AccessSubmit extends HttpServlet {
 		Product product = null;
 		List<Answer> answers = null;
 		List<User> users = new ArrayList<User>();
+		List<User> cancelled_users = new ArrayList<User>();
+		List<Log> logs = null;
 		
 		try {
 			questionnaire = qService.findQuestionnaire(quest_id);
 			questions = questionnaire.getQuestions();
 			product = questionnaire.getProduct();
 			answers = aService.findAnswers(questionnaire);
+			logs = lService.findLogs(questionnaire);
 		} catch (NonUniqueDailyQuestionnaire e) {
 			e.printStackTrace();
 		} catch (NoDailyQuestionnaire e) {
@@ -87,12 +94,17 @@ public class AccessSubmit extends HttpServlet {
 			users.add(a.getUser());
 		}
 		
+		for (Log l : logs) {
+			cancelled_users.add(l.getUser());
+		}
+		
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
 		ctx.setVariable("questions", questions);
 		ctx.setVariable("product", product);
 		ctx.setVariable("users", users);
+		ctx.setVariable("cusers", cancelled_users);
 		
 		String path = "/WEB-INF/AccessSubmit.html";
 		templateEngine.process(path, ctx, response.getWriter());

@@ -9,17 +9,15 @@
 	<div align="right">
 		<p th:text="'Welcome, ' + ${session.user.username} + '!'">Welcome,
 			user.</p>
-		<a th:href="@{/Logout}">Logout</a>
-		<br>
-		<a th:href="@{/HomeAdmin}">Home</a>
-		<br>
-		<a th:href="@{/AccessData}">Back</a>
+		<a th:href="@{/Logout}">Logout</a> <br> <a
+			th:href="@{/HomeAdmin}">Home</a> <br> <a
+			th:href="@{/AccessData}">Back</a>
 	</div>
 
 	<h1>Access past questionnaires and data</h1>
-	
+
 	<div align="center">
-		<p>Product: </p>
+		<p>Product:</p>
 		<p class="product_name" th:text="${product.name}">NAME</p>
 		<img alt="photo" class="product_img"
 			th:src="*{'data:image/png;base64,'+ product.getImageData()}">
@@ -27,7 +25,7 @@
 
 	<div align="center">
 		<h2>Marketing Questions</h2>
-		
+
 		<table>
 			<thead>
 				<tr>
@@ -36,8 +34,8 @@
 					<th>Text</th>
 				</tr>
 			</thead>
-			<tbody th:each="quest : ${questions}">
-				<tr>
+			<tbody>
+				<tr th:each="quest : ${questions}">
 					<td th:text="${quest.id}">QUEST_ID</td>
 					<td th:text="${quest.num}">QUEST_NUM</td>
 					<td th:text="${quest.text}">TEXT</td>
@@ -45,24 +43,35 @@
 			</tbody>
 		</table>
 	</div>
-	
+
 	<div align="center">
-		<h2>Users who submitted</h2>
-		
+		<h2>Users who interacted with the questionnaire</h2>
+
 		<table>
 			<thead>
 				<tr>
 					<th>ID</th>
 					<th>Username</th>
 					<th>Email</th>
+					<th>Operation</th>
 				</tr>
 			</thead>
-			<tbody th:each="u : ${users}">
-				<tr>
+			<tbody>
+				<tr th:each="u : ${users}">
 					<td th:text="${u.id}">QUEST_ID</td>
 					<td th:text="${u.username}">QUEST_NUM</td>
 					<td th:text="${u.email}">TEXT</td>
+					<td>SUBMITTED</td>
 				</tr>
+			</tbody>
+				<tr th:each="u : ${cusers}">
+					<td th:text="${u.id}">QUEST_ID</td>
+					<td th:text="${u.username}">QUEST_NUM</td>
+					<td th:text="${u.email}">TEXT</td>
+					<td>CANCELLED</td>
+				</tr>
+			<tbody>
+
 			</tbody>
 		</table>
 	</div>
