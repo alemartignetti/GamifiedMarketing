@@ -19,7 +19,6 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.gamified.db2.entities.Answer;
 import it.gamified.db2.entities.MarketingQuestion;
-import it.gamified.db2.entities.Product;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.AlreadyAnswered;
@@ -75,7 +74,6 @@ public class QuestionnaireForm extends HttpServlet {
 				throw new AlreadyAnswered("User already answered to the dailyQuestionnaire.");
 			}
 			questions = dailyQuest.getQuestions();
-			product = dailyQuest.getProduct();
 		} catch (NonUniqueDailyQuestionnaire | AnswerDuplicate e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());

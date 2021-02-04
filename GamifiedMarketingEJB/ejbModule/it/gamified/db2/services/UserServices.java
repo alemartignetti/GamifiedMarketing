@@ -19,6 +19,7 @@ public class UserServices {
 
 	public User loginVerification(String username, String password) throws LoginException, NonUniqueResultException {
 		List<User> userList = null;
+		System.out.println("Called");
 		try {
 			userList = em.createNamedQuery("User.loginVerification", User.class).setParameter(1, username).setParameter(2, password)
 					.getResultList();

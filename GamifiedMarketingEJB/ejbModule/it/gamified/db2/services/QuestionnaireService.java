@@ -70,6 +70,11 @@ public class QuestionnaireService {
 		}
 	}
 	
+	public Questionnaire findQuestionnaire(int quest_id) {
+		Questionnaire q = em.find(Questionnaire.class, quest_id);
+		return q;
+	}
+	
 	public void deleteQuestionnaire(int id) {
 		Questionnaire toBeDeleted = em.find(Questionnaire.class, id);
 		em.remove(toBeDeleted);

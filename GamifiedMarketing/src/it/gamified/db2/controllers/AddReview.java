@@ -19,6 +19,8 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.User;
+import it.gamified.db2.exceptions.NoDailyQuestionnaire;
+import it.gamified.db2.exceptions.NonUniqueDailyQuestionnaire;
 import it.gamified.db2.services.QuestionnaireService;
 
 /**
@@ -59,7 +61,13 @@ public class AddReview extends HttpServlet {
 		}
 		
 		User u = (User) session.getAttribute("user");
-		Questionnaire q = qService.findDailyQuestionnaire();
+		Questionnaire q;
+		try {
+			q = qService.findDailyQuestionnaire();
+		} catch (NonUniqueDailyQuestionnaire | NoDailyQuestionnaire e1) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Daily Questionnaire does not exist");
+			return;
+		}
 		
 		String reviewText = null;
 		

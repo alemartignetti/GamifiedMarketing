@@ -3,6 +3,7 @@ package it.gamified.db2.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +48,7 @@ public class Answer implements Serializable{
 	@CollectionTable(name = "answering", joinColumns = @JoinColumn(name = "answer_id"))
 	@MapKeyJoinColumn(name = "mkquest_id")
 	@Column(name = "text")
-	private Map<MarketingQuestion, String> answers;
+	private Map<MarketingQuestion, String> answers = new HashMap<MarketingQuestion, String>();
 	
 	// Embedded element to simply the management
 	@Embedded

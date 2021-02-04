@@ -27,7 +27,7 @@ import it.gamified.db2.exceptions.OffensiveWord;
 import it.gamified.db2.exceptions.TransactionError;
 import it.gamified.db2.entities.OptionalQuest;
 import it.gamified.db2.services.AnswerService;
-import it.gamified.db2.services.MarketingQuestionService;
+import it.gamified.db2.services.QuestionnaireService;
 import it.gamified.db2.services.UserServices;
 
 /**
@@ -38,8 +38,8 @@ import it.gamified.db2.services.UserServices;
 public class AnswerSubmit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	@EJB(name = "it.gamified.db2.services/MarketingQuestionService")
-	private MarketingQuestionService mqService;
+	@EJB(name = "it.gamified.db2.services/QuestionnaireService")
+	private QuestionnaireService qService;
 	@EJB(name = "it.gamified.db2.services/AnswerService")
 	private AnswerService aService;
 	@EJB(name = "it.gamified.db2.services/UserServices")

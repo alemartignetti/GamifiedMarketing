@@ -127,7 +127,10 @@ public class Questionnaire implements Serializable{
 	}
 	
 	public String getImageData() {
-		return Base64.getMimeEncoder().encodeToString(image);
+		if(image != null) {
+			return Base64.getMimeEncoder().encodeToString(image);
+		}
+		else return null;
 	}
 
 	public void setImage(byte[] image) {

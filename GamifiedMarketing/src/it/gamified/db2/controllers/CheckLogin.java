@@ -22,7 +22,7 @@ import it.gamified.db2.entities.User.Role;
 import it.gamified.db2.exceptions.LoginException;
 import javax.persistence.NonUniqueResultException;
 
-@WebServlet("/CheckLogin")
+@WebServlet(name="CheckLogin", urlPatterns={"/CheckLogin"})
 public class CheckLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
