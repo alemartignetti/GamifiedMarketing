@@ -22,7 +22,7 @@ import it.gamified.db2.entities.User.Role;
 import it.gamified.db2.exceptions.LoginException;
 import javax.persistence.NonUniqueResultException;
 
-@WebServlet("/CheckLogin")
+@WebServlet(name="CheckLogin", urlPatterns={"/CheckLogin"})
 public class CheckLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
@@ -47,6 +47,7 @@ public class CheckLogin extends HttpServlet {
 		// 2 cases can occur
 		// 1. User is non existent
 		// 2. Exception due to error in query
+		System.out.println("1 Step");
 		String usr_field = null;
 		String pass = null;
 		try {
@@ -76,7 +77,7 @@ public class CheckLogin extends HttpServlet {
 		// If the user exists, add info to the session and go to home page, otherwise
 		// show login page with error message
 		
-
+		System.out.println("2 Step");
 		String path;
 		if (user == null) {
 			ServletContext servletContext = getServletContext();

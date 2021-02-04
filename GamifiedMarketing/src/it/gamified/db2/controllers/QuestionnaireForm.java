@@ -19,7 +19,6 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.gamified.db2.entities.Answer;
 import it.gamified.db2.entities.MarketingQuestion;
-import it.gamified.db2.entities.Product;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.AlreadyAnswered;
@@ -64,7 +63,6 @@ public class QuestionnaireForm extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		Questionnaire dailyQuest = null;
 		List<MarketingQuestion> questions = null;
-		Product product = null;
 		boolean isDailyQuestionnaireAvailable = false;
 		boolean areQuestionsAvailable = false;
 
@@ -76,7 +74,6 @@ public class QuestionnaireForm extends HttpServlet {
 				throw new AlreadyAnswered("User already answered to the dailyQuestionnaire.");
 			}
 			questions = dailyQuest.getQuestions();
-			product = dailyQuest.getProduct();
 		} catch (NonUniqueDailyQuestionnaire | AnswerDuplicate e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
@@ -103,7 +100,6 @@ public class QuestionnaireForm extends HttpServlet {
 			// Set thymeleaf variable to present reviews and product
 			ctx.setVariable("dailyQuest", dailyQuest);
 			ctx.setVariable("questions", questions);
-			ctx.setVariable("product", product);
 			isDailyQuestionnaireAvailable = true;
 			areQuestionsAvailable = !questions.isEmpty();
 			System.out.println("Are there questions? " + areQuestionsAvailable);

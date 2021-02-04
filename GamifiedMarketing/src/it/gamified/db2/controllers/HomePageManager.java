@@ -55,7 +55,6 @@ public class HomePageManager extends HttpServlet {
 		
 		Questionnaire dailyQuest = null;
 		List<Review> reviews = null;
-		Product product = null;
 		boolean isDailyQuestionnaireAvailable = false;
 		
 		// Redirect to the Home page and add missions to the parameters
@@ -66,7 +65,6 @@ public class HomePageManager extends HttpServlet {
 		try {
 			dailyQuest = qService.findDailyQuestionnaire();
 			reviews = dailyQuest.getReviews();
-			product = dailyQuest.getProduct();
 		} catch (NonUniqueDailyQuestionnaire e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
@@ -78,13 +76,11 @@ public class HomePageManager extends HttpServlet {
 		System.out.println("Check null questionnaire");
 		
 		if(dailyQuest != null) {
-			// Questionnaire exists, it becomes a session variable
-			session.setAttribute("dailyQuest", dailyQuest);
+			// Questionnaire exists
 			
 			// Set thymeleaf variable to present reviews and product
 			ctx.setVariable("dailyQuest", dailyQuest);
 			ctx.setVariable("reviews", reviews);
-			ctx.setVariable("product", product);
 			isDailyQuestionnaireAvailable = true;
 			System.out.println("Daily Questionnaire Formatted.");
 		}

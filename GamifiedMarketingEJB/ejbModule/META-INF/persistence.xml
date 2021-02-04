@@ -8,12 +8,27 @@
 		<jta-data-source>GamifiedMarketingDatabase</jta-data-source>
 		<class>it.gamified.db2.entities.Answer</class>
 		<class>it.gamified.db2.entities.Log</class>
-		<class>it.gamified.db2.entities.MarketingAnswer</class>
 		<class>it.gamified.db2.entities.MarketingQuestion</class>
-		<class>it.gamified.db2.entities.Product</class>
+		<class>it.gamified.db2.entities.OffensiveWord</class>
+		<class>it.gamified.db2.entities.OptionalQuest</class>
 		<class>it.gamified.db2.entities.Questionnaire</class>
 		<class>it.gamified.db2.entities.Review</class>
 		<class>it.gamified.db2.entities.User</class>
+		<properties>
+			<property name="eclipselink.logging.level" value="FINE" />
+		</properties>
+	</persistence-unit>
+	<persistence-unit transaction-type="RESOURCE_LOCAL"
+		name="GamifiedMarketingEJBunmg">
+		<jta-data-source>GamifiedMarketingDatabase</jta-data-source>
+		<class>it.gamified.db2.entities.Answer</class>
+		<class>it.gamified.db2.entities.Log</class>
+		<class>it.gamified.db2.entities.MarketingQuestion</class>
+		<class>it.gamified.db2.entities.Questionnaire</class>
+		<class>it.gamified.db2.entities.OptionalQuest</class>
+		<class>it.gamified.db2.entities.Review</class>
+		<class>it.gamified.db2.entities.User</class>
+		<class>it.gamified.db2.entities.OffensiveWord</class>
 		<class>it.gamified.db2.entities.OffensiveWord</class>
 		<properties>
 			<property name="eclipselink.logging.level" value="FINE" />

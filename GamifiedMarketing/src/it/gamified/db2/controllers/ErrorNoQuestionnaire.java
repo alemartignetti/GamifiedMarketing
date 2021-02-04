@@ -21,7 +21,6 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.gamified.db2.entities.MarketingQuestion;
-import it.gamified.db2.entities.Product;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.Review;
 import it.gamified.db2.exceptions.NoDailyQuestionnaire;

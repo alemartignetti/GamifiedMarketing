@@ -22,7 +22,6 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import it.gamified.db2.entities.Answer;
 import it.gamified.db2.entities.Log;
 import it.gamified.db2.entities.MarketingQuestion;
-import it.gamified.db2.entities.Product;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.NoDailyQuestionnaire;
@@ -70,25 +69,15 @@ public class AccessSubmit extends HttpServlet {
 
 		Questionnaire questionnaire = null;
 		List<MarketingQuestion> questions = null;
-		Product product = null;
 		List<Answer> answers = null;
 		List<User> users = new ArrayList<User>();
 		List<User> cancelled_users = new ArrayList<User>();
 		List<Log> logs = null;
+	
 		
-		try {
-			questionnaire = qService.findQuestionnaire(quest_id);
-			questions = questionnaire.getQuestions();
-			product = questionnaire.getProduct();
-			answers = aService.findAnswers(questionnaire);
-			logs = lService.findLogs(questionnaire);
-		} catch (NonUniqueDailyQuestionnaire e) {
-			e.printStackTrace();
-		} catch (NoDailyQuestionnaire e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		questionnaire = qService.findQuestionnaire(quest_id);
+		questions = questionnaire.getQuestions();
+		answers = aService.findAnswers(quest_id);
 		
 		for (Answer a : answers) {
 			users.add(a.getUser());
@@ -102,7 +91,6 @@ public class AccessSubmit extends HttpServlet {
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
 		ctx.setVariable("questions", questions);
-		ctx.setVariable("product", product);
 		ctx.setVariable("users", users);
 		ctx.setVariable("cusers", cancelled_users);
 		

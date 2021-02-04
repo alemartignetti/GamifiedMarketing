@@ -14,9 +14,18 @@ public class Review implements Serializable {
 
 	private String text;
 	
-	@ManyToOne
+	// **POSTED BY RELATIONSHIP**
+	// ----- FETCH TYPE -----
+	// The fetch type is EAGER since we need navigation to show the user
+	// ----- CASCADE --------
+	// Default
+	
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User user;
+	
+	// **POSTED TO RELATIONSHIP**
+	// Implemented but not used
 	
 	@ManyToOne
 	@JoinColumn(name = "quest_id")

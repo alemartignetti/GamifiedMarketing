@@ -19,9 +19,9 @@
 
 	<div th:if="${questAvail}">
 		<h2>The product of the day is..</h2>
-		<p class="product_name" th:text="${product.name}"></p>
+		<p class="product_name" th:text="${dailyQuest.product_name}"></p>
 		<img alt="photo" class="product_img"
-			th:src="*{'data:image/png;base64,'+ product.getImageData()}">
+			th:src="*{'data:image/png;base64,'+ dailyQuest.getImageData()}">
 		<div class="to_quest">
 			<a th:href="@{/QuestionnaireForm}">Answer the Daily
 				Questionnaire!</a>

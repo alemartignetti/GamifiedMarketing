@@ -19,6 +19,8 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.User;
+import it.gamified.db2.exceptions.NoDailyQuestionnaire;
+import it.gamified.db2.exceptions.NonUniqueDailyQuestionnaire;
 import it.gamified.db2.services.QuestionnaireService;
 
 /**
@@ -53,13 +55,15 @@ public class AddReview extends HttpServlet {
 			response.sendRedirect(basepath);
 			return;
 		}
-		else if (session.getAttribute("dailyQuest") == null) {
-			response.sendRedirect(basepath + "/Home");
-			return;
-		}
 		
 		User u = (User) session.getAttribute("user");
-		Questionnaire q = (Questionnaire) session.getAttribute("dailyQuest");
+		Questionnaire q;
+		try {
+			q = qService.findDailyQuestionnaire();
+		} catch (NonUniqueDailyQuestionnaire | NoDailyQuestionnaire e1) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Daily Questionnaire does not exist");
+			return;
+		}
 		
 		String reviewText = null;
 		
@@ -77,7 +81,6 @@ public class AddReview extends HttpServlet {
 		}
 		qService.addReviewToQuestionnaire(q, reviewText, u.getId());
 		
-		request.getSession().setAttribute("dailyQuest", q);
 		String path = getServletContext().getContextPath() + "/HomePage";
 		response.sendRedirect(path);
 	}

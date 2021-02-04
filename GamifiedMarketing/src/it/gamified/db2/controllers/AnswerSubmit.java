@@ -25,8 +25,9 @@ import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.InvalidQuestionAnswer;
 import it.gamified.db2.exceptions.OffensiveWord;
 import it.gamified.db2.exceptions.TransactionError;
+import it.gamified.db2.entities.OptionalQuest;
 import it.gamified.db2.services.AnswerService;
-import it.gamified.db2.services.MarketingQuestionService;
+import it.gamified.db2.services.QuestionnaireService;
 import it.gamified.db2.services.UserServices;
 
 /**
@@ -37,8 +38,8 @@ import it.gamified.db2.services.UserServices;
 public class AnswerSubmit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	@EJB(name = "it.gamified.db2.services/MarketingQuestionService")
-	private MarketingQuestionService mqService;
+	@EJB(name = "it.gamified.db2.services/QuestionnaireService")
+	private QuestionnaireService qService;
 	@EJB(name = "it.gamified.db2.services/AnswerService")
 	private AnswerService aService;
 	@EJB(name = "it.gamified.db2.services/UserServices")
@@ -70,7 +71,7 @@ public class AnswerSubmit extends HttpServlet {
 		
 		Questionnaire dailyQuest = null;
 		try {
-			dailyQuest = (Questionnaire) session.getAttribute("dailyQuest");
+			dailyQuest = qService.findDailyQuestionnaire();
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Tentative Submit failed due to dailyQuest being of wrong type.");
@@ -86,7 +87,6 @@ public class AnswerSubmit extends HttpServlet {
 		// Get parameters list
 		User user = (User) session.getAttribute("user");
 		HashMap<Integer, String> answersQuestionnaire = new HashMap<Integer, String>();
-		HashMap<String, String> optionalAnswer = new HashMap<String, String>();
 		
 		// Get id by hidden input value
 		String baseString = "markquest_";
@@ -119,14 +119,21 @@ public class AnswerSubmit extends HttpServlet {
 		String expertise = StringEscapeUtils.escapeJava(request.getParameter("expertise"));
 		String age = StringEscapeUtils.escapeJava(request.getParameter("age"));
 		
-		optionalAnswer.put("sex", sex);
-		optionalAnswer.put("expertise", expertise);
-		optionalAnswer.put("age", age);
+		OptionalQuest optionalAnswer = new OptionalQuest(age, sex, expertise);
 		
 		try {
 			aService.submitAnswer(dailyQuest.getId(), user.getId(), answersQuestionnaire, optionalAnswer);
 		} catch(OffensiveWord e) {
 			uService.blockUser(user.getId());
+			//Add error page for blocked user
+			
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("offensivemsg", "Do you feel funny? So rude by you to say that!\nLearn to behave next time.");
+			String path = "/WEB-INF/Offensive.html";
+			templateEngine.process(path, ctx, response.getWriter());
+			return;
+			
 		} catch(InvalidQuestionAnswer e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Answer to non existent question.");

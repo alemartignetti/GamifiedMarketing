@@ -18,11 +18,11 @@
 		<a th:href="@{/HomeManager}">Home</a>
 	</div>
 	
-	<div id="container" th:each="a : ${answers}">
-		<div class="row" th:classappend=" ${a.orderingattribute}">
+	<div id="container" th:each="u : ${users}">
+		<div class="row" th:classappend=" ${u.points}">
 		<!-- orderattribute gives different border. Ordering done server side. -->
-    		<div class="name" th:inline="text">[[${a.name}]]</div>
-    		<div class="score" th:inline="text">[[${a.score}]]</div>
+    		<div class="name" th:inline="text">[[${u.name}]]</div>
+    		<div class="score" th:inline="text">[[${u.points}]]</div>
   		</div>
 	</div>
 </body>
