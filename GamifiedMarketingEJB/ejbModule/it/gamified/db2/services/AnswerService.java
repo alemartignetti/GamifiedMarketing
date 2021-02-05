@@ -60,6 +60,7 @@ public class AnswerService {
 		}
 	}
 	
+	// NEEDED BECAUSE ANSWERS ARE NOT EAGERLY FETCHED
 	public List<Answer> findAnswers(int quest_id) {
 		Questionnaire q = em.find(Questionnaire.class, quest_id);
 		return q.getAnswers();

@@ -18,9 +18,9 @@
 
 	<div align="center">
 		<p>Product:</p>
-		<p class="product_name" th:text="${product.name}">NAME</p>
+		<p class="product_name" th:text="${questionnaire.product_name}">NAME</p>
 		<img alt="photo" class="product_img"
-			th:src="*{'data:image/png;base64,'+ product.getImageData()}">
+			th:src="*{'data:image/png;base64,'+ questionnaire.getImageData()}">
 	</div>
 
 	<div align="center">
@@ -64,15 +64,14 @@
 					<td>SUBMITTED</td>
 				</tr>
 			</tbody>
+<!-- 			<tbody>
 				<tr th:each="u : ${cusers}">
 					<td th:text="${u.id}">QUEST_ID</td>
 					<td th:text="${u.username}">QUEST_NUM</td>
 					<td th:text="${u.email}">TEXT</td>
 					<td>CANCELLED</td>
 				</tr>
-			<tbody>
-
-			</tbody>
+			</tbody> -->
 		</table>
 	</div>
 
