@@ -47,22 +47,33 @@ public class Questionnaire implements Serializable{
 	// ----- FETCH TYPE -----
 	// The fetch type is EAGER since we need navigation to show the reviews on HomePage
 	// ----- CASCADE --------
-	// REMOVE: We need to remove each questions when needed
-	// ORPHAN REMOVAL: Set to true since questions not linked to a given questionnaire are deleted
+	// REMOVE: We need to remove each review when the questionnaire is deleted
+	// ORPHAN REMOVAL: Set to true since reviews not linked to a given questionnaire are deleted
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = {CascadeType.REMOVE}, orphanRemoval = true)
 	private List<Review> reviews;
 	
 	// **REFERRING TO RELATIONSHIP**
 	// ----- FETCH TYPE -----
-	// The fetch type is LAZY since we do not want to bring all the answers in questionnaire during normal navigation
+	// The fetch type is DEFAULT since we do not want to bring all the answers in questionnaire during normal navigation
 	// ----- CASCADE --------
-	// REMOVE: We need to remove each questions when needed
-	// ORPHAN REMOVAL: Set to true since questions not linked to a given questionnaire are deleted
+	// REMOVE: We need to remove each answer when questionnaire is needed
+	// ORPHAN REMOVAL: Set to true since answer not linked to a given questionnaire are deleted
 	
 	@OneToMany(mappedBy = "questionnaire", cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private List<Answer> answers;	
-
+	private List<Answer> answers;
+	
+	public Questionnaire() {
+		
+	}
+	
+	public Questionnaire(Date ref_date, String name, byte[] image) {
+		
+		setProduct_name(name);
+		setRef_date(ref_date);
+		setImage(image);
+		
+	}
 	public int getId() {
 		return id;
 	}
@@ -82,7 +93,7 @@ public class Questionnaire implements Serializable{
 
 	public List<MarketingQuestion> getQuestions() {
 		if(questions == null) {
-			return new ArrayList<MarketingQuestion>();
+			questions = new ArrayList<MarketingQuestion>();
 		}
 		return questions;
 	}
@@ -105,7 +116,7 @@ public class Questionnaire implements Serializable{
 	}
 	
 	public void addQuestion(MarketingQuestion question) {
-		this.questions.add(question);
+		getQuestions().add(question);
 		question.setQuestionnaire(this);
 	}
 	

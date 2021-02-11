@@ -87,8 +87,11 @@ public class AnswerService {
 		//Explicitly start the transaction
 			Questionnaire quest = em.find(Questionnaire.class, questId);
 			User user = em.find(User.class, userId);
-	
-			Answer answer = new Answer(user, quest);
+			
+			System.out.println("Preparing submission!");
+			Answer answer = new Answer();
+			
+			System.out.println("Preparing submission: created the element!");
 			List<String> queryResult = em.createNamedQuery("getAllOffensive", String.class).getResultList();
 			
 			// This is to improve efficiency of disjoint check, since we know no duplicate offensiveword is present
@@ -96,6 +99,7 @@ public class AnswerService {
 			Set<String> offensiveWords = new HashSet<String>(queryResult);
 			List<MarketingQuestion> questions = quest.getQuestions();
 	
+			System.out.println("Preparing submission: entering for!");
 			for(final Entry<Integer, String> e : answersQuestionnaire.entrySet()) {
 				Integer questionID = e.getKey();
 				String answerText = e.getValue();
@@ -127,16 +131,20 @@ public class AnswerService {
 				if(priorQuestion == null) {
 					throw new InvalidQuestionAnswer("Answer for non existent question.");
 				}
+			
 				
-				System.out.println(answerText);
+				System.out.println("Question:" + priorQuestion.getText() + "\nAnswer:" + answerText);
 				answer.setAnswerText(priorQuestion, answerText);
 			}
 			
-			answer.setOptionalAnswer(optionalAnswer);
 			
 			System.out.println("Alright!");
 	
-			user.addAnswer(answer);
+			answer.setOptionalAnswer(optionalAnswer);
+			answer.setUser(user);
+			answer.setQuestionnaire(quest);
+			quest.addAnswer(answer);
+			
 			em.persist(answer);
 	
 			System.out.println("Done!");

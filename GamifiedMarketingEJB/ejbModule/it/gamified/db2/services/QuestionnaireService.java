@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TemporalType;
 
 import it.gamified.db2.exceptions.*;
+import it.gamified.db2.entities.MarketingQuestion;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.Review;
 import it.gamified.db2.entities.User;
@@ -93,4 +94,33 @@ public class QuestionnaireService {
 		System.out.println("Success");
 	}
 
+	public Questionnaire createQuestionnaire(String product_name, byte[] image, Date ref_date, List<String> questions) throws NonUniqueDailyQuestionnaire, NoDailyQuestionnaire, ParseException{
+		
+		
+		// Check that no questionnaire exist with given date
+		List<Questionnaire> questionnaires = em.createNamedQuery("Questionnaire.getQuestionnaire", Questionnaire.class)
+				.setParameter("date", ref_date, TemporalType.DATE).getResultList();
+
+		System.out.println("Number of questionnaire: " + Integer.toString(questionnaires.size()));
+		if (questionnaires.size() > 1) {
+			throw new NonUniqueDailyQuestionnaire(
+					"Double Questionnaire already present. This is illegal by database constraint.");
+		} else if (!questionnaires.isEmpty()) {
+			throw new NoDailyQuestionnaire("Questionnaire for the given date already Present.");
+		}
+		
+        Questionnaire quest = new Questionnaire(ref_date, product_name, image);	
+        int ordering = 1;
+        
+        for(String text : questions ){
+                MarketingQuestion mk = new MarketingQuestion(text, ordering);
+                quest.addQuestion(mk);
+                ordering += 1;
+        }
+        
+        em.persist(quest); // Persist cascade on marketingQuestions;
+
+        return quest;
+
+	}
 }

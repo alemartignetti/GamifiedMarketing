@@ -36,6 +36,25 @@ public class Log implements Serializable{
 	@Column(columnDefinition = "ENUM('LOGIN', 'CANCEL')")
 	@Enumerated(EnumType.STRING)
 	private Type type;
+	
+	public Log() {}
+	
+	public Log(User u, String type) {
+		
+		setUser(u);
+		
+		Type t = null;
+		if(type == "L") {
+			t = Type.LOGIN;
+		}
+		else {
+			t = Type.CANCEL;
+		}
+		setType(t);
+		Date date = new Date();
+		setTimestamp(date);
+		
+	}
 
 	public int getId() {
 		return id;

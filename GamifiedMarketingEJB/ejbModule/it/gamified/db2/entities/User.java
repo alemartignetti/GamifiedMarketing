@@ -128,7 +128,7 @@ public class User implements Serializable {
 		this.answers = answers;
 	}
 	
-	// Answer manage user addition
+	// Answer manages user addition
 	public void addAnswer(Answer answer) {
 		if(answers == null) answers = new ArrayList<Answer>();
 		this.answers.add(answer);
