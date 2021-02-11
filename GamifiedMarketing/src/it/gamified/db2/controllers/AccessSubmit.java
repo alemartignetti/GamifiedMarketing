@@ -71,28 +71,28 @@ public class AccessSubmit extends HttpServlet {
 		List<MarketingQuestion> questions = null;
 		List<Answer> answers = null;
 		List<User> users = new ArrayList<User>();
-		List<User> cancelled_users = new ArrayList<User>();
-		List<Log> logs = null;
-	
-		
-		questionnaire = qService.findQuestionnaire(quest_id);
-		questions = questionnaire.getQuestions();
+		//List<User> cancelled_users = new ArrayList<User>();
+		//List<Log> logs = null;
+
+
+		questions = questionnaire.getQuestions(); // eagerly fetched
 		answers = aService.findAnswers(quest_id);
 		
 		for (Answer a : answers) {
 			users.add(a.getUser());
 		}
 		
-		for (Log l : logs) {
-			cancelled_users.add(l.getUser());
-		}
+//		for (Log l : logs) {
+//			cancelled_users.add(l.getUser());
+//		}
 		
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
 		ctx.setVariable("questions", questions);
 		ctx.setVariable("users", users);
-		ctx.setVariable("cusers", cancelled_users);
+		ctx.setVariable("questionnaire", questionnaire);
+//		ctx.setVariable("cusers", cancelled_users);
 		
 		String path = "/WEB-INF/AccessSubmit.html";
 		templateEngine.process(path, ctx, response.getWriter());
