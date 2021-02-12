@@ -17,7 +17,7 @@ import java.util.List;
 			+ "WHERE (r.username = ?1 and r.password = ?2) OR (r.email = ?1 and r.password = ?2)"),
 	@NamedQuery(name = "User.checkUsername", query = "SELECT r.username FROM User r WHERE r.username = ?1"),
 	@NamedQuery(name = "User.checkEmail", query = "SELECT r.email FROM User r WHERE r.email = ?1"),
-	@NamedQuery(name = "User.getAnswering", query = "SELECT u FROM User u WHERE u.email = ?1")
+	@NamedQuery(name = "User.getLeaderboard", query = "SELECT u FROM User u WHERE EXISTS ( SELECT a from u.answers a where a.questionnaire = :quest ) ORDER BY u.points")
 })
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;

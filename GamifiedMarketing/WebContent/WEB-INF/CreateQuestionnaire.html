@@ -6,7 +6,17 @@
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
- 
+ <body>
+
+	<div align="right">
+		<p th:text="'Welcome, ' + ${session.user.username} + '!'">Welcome,
+			user.</p>
+		<a th:href="@{/Logout}">Logout</a>
+	</div>
+
+	<div align="right">
+		<a th:href="@{/HomeAdmin}">Home</a>
+	</div>
 
 <div class="blue-bar ta-l">
     <div class="container">
@@ -14,7 +24,8 @@
     </div>
 </div>
 
-<body>
+
+
 <div class="formdiv">
 		<p>Complete the form to create a questionnaire with a product and the related questions</p>
 		<form action="#" th:action="@{/CreateQuestionnaire}" method="POST"
