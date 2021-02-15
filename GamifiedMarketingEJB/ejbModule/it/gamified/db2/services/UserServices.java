@@ -10,9 +10,12 @@ import org.eclipse.persistence.config.QueryHints;
 
 import javax.persistence.NonUniqueResultException;
 
+import it.gamified.db2.entities.Log;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.*;
+
+import java.util.Date;
 import java.util.List;
 
 @Stateless

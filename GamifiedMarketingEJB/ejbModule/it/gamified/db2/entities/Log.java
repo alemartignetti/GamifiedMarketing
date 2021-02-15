@@ -6,6 +6,10 @@ import java.util.List;
 
 import javax.persistence.*;
 
+@NamedQueries({
+	@NamedQuery(name = "Log.cancelledLogs", query = "SELECT l FROM Log l WHERE (l.type = it.gamified.db2.entities.Log.Type.CANCEL and date(l.timestamp) = :dateq)")
+})
+
 @Entity
 @Table(name="logtable", schema="db_gamifiedschema")
 public class Log implements Serializable{
@@ -20,11 +24,11 @@ public class Log implements Serializable{
 	
 	// **LOGGING RELATIONSHIP**
 	// ----- FETCH TYPE -----
-	// The fetch type is EAGER since we SHOULD use it in an hypotetical functionality not requested but implemented
+	// The fetch type is EAGER since we can get user details 
 	// ----- CASCADE --------
 	// Default
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User user;
 	

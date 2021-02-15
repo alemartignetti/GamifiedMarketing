@@ -28,4 +28,14 @@ public class LogService {
 		em.persist(log);
 		
 	}
+	
+	public List<Log> getCancelledLogs(int quest_id){
+		
+		Questionnaire quest = em.find(Questionnaire.class, quest_id);
+		Date ref_date = quest.getRef_date();
+		
+		List<Log> logs = em.createNamedQuery("Log.cancelledLogs", Log.class).setParameter("dateq", ref_date).getResultList();
+		return logs;
+		
+	}
 }
