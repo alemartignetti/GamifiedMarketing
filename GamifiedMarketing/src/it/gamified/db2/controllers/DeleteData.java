@@ -50,7 +50,7 @@ public class DeleteData extends HttpServlet {
 			return;
 		}
 
-		List<Questionnaire> questionnaires = qService.findAllQuestionnaires();
+		List<Questionnaire> questionnaires = qService.findPastQuestionnaires();
 
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());

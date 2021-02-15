@@ -46,7 +46,15 @@ public class QuestionnaireService {
 	}
 
 	public List<Questionnaire> findAllQuestionnaires() {
-		List<Questionnaire> questionnaires = em.createQuery("Select q from Questionnaire q", Questionnaire.class)
+		List<Questionnaire> questionnaires = em.createQuery("Select q from Questionnaire q ORDER BY q.ref_date DESC", Questionnaire.class)
+				.getResultList();
+		return questionnaires;
+	}
+	
+	public List<Questionnaire> findPastQuestionnaires() {
+		Date current_date = new Date();
+		List<Questionnaire> questionnaires = em.createQuery("Select q from Questionnaire q WHERE q.ref_date < ?1 ORDER BY q.ref_date DESC", Questionnaire.class)
+				.setParameter(1, current_date)
 				.getResultList();
 		return questionnaires;
 	}

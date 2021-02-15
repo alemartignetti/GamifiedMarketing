@@ -73,6 +73,8 @@ public class AccessSubmit extends HttpServlet {
 		List<User> users = new ArrayList<User>();
 		//List<User> cancelled_users = new ArrayList<User>();
 		//List<Log> logs = null;
+		
+		questionnaire = qService.findQuestionnaire(quest_id);
 
 		questions = questionnaire.getQuestions(); // eagerly fetched
 		answers = aService.findAnswers(quest_id);
