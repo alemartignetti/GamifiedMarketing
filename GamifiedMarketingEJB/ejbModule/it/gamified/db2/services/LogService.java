@@ -1,7 +1,9 @@
 package it.gamified.db2.services;
 
 import java.util.List;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,8 +35,21 @@ public class LogService {
 		
 		Questionnaire quest = em.find(Questionnaire.class, quest_id);
 		Date ref_date = quest.getRef_date();
+		Calendar next_day = new GregorianCalendar();
 		
-		List<Log> logs = em.createNamedQuery("Log.cancelledLogs", Log.class).setParameter("dateq", ref_date).getResultList();
+		next_day.setTime(ref_date);
+		next_day.set(Calendar.DAY_OF_YEAR, next_day.get(Calendar.DAY_OF_YEAR) + 1);
+		
+		next_day.set(Calendar.HOUR_OF_DAY, 0);
+		next_day.set(Calendar.MINUTE, 0);
+		next_day.set(Calendar.SECOND, 0);
+		
+		Date next_date = next_day.getTime();
+		
+		List<Log> logs = em.createNamedQuery("Log.cancelledLogs", Log.class)
+				.setParameter("dateq", ref_date)
+				.setParameter("dateq1", next_date)
+				.getResultList();
 		return logs;
 		
 	}
