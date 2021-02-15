@@ -4,6 +4,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+
+import org.eclipse.persistence.config.HintValues;
+import org.eclipse.persistence.config.QueryHints;
+
 import javax.persistence.NonUniqueResultException;
 
 import it.gamified.db2.entities.Questionnaire;
@@ -85,7 +89,7 @@ public class UserServices {
 		Questionnaire quest = em.find(Questionnaire.class, quest_id);
 		// The method should get an ordered list of users based on a given questionnaire, if the answer exists.
 		// Simply use a named query and get the ordered user by point where exist an answer
-		List<User> users = em.createNamedQuery("User.getLeaderboard", User.class).setParameter("quest", quest).getResultList();
+		List<User> users = em.createNamedQuery("User.getLeaderboard", User.class).setParameter("quest", quest).setHint("javax.persistence.cache.storeMode", "REFRESH").getResultList();
 		
 		return users;
 		
