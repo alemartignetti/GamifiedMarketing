@@ -17,14 +17,14 @@ public class OptionalQuest {
 	
 	public OptionalQuest(String age, String sex, String exp) {
 		
-		setSex(Sex.valueOf(sex)); // returns null if no valid
+		setSex(sex != null ? Sex.valueOf(sex) : null); // returns null if no valid
 		try {
 			Integer age_num = Integer.parseInt(age);
 			setAge(age_num);
 		} catch (NumberFormatException e) {
 			System.out.println("Bad formatted age, considered null.");
 		}
-		setExpertise(Expertise.valueOf(exp));
+		setExpertise(exp != null ? Expertise.valueOf(exp) : null);
 		
 	}
 	

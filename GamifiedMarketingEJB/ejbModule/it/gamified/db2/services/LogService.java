@@ -20,4 +20,12 @@ public class LogService {
 	@PersistenceContext(unitName = "GamifiedMarketingEJB")
 	private EntityManager em;
 
+	//Register Log
+	public void registerLog(int user_id, String type) {
+		
+		User user = em.find(User.class, user_id);
+		Log log = new Log(user, type);
+		em.persist(log);
+		
+	}
 }

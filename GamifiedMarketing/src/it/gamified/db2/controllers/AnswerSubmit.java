@@ -62,7 +62,6 @@ public class AnswerSubmit extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String loginpath = getServletContext().getContextPath();
 		
-		System.out.println( request.getQueryString( ));
 		HttpSession session = request.getSession();
 		if (session.isNew() || session.getAttribute("user") == null) {
 			response.sendRedirect(loginpath);

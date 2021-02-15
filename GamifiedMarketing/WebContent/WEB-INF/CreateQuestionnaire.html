@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./css/questionnaire.css" />
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+ <body>
+
+	<div align="right">
+		<p th:text="'Welcome, ' + ${session.user.username} + '!'">Welcome,
+			user.</p>
+		<a th:href="@{/Logout}">Logout</a>
+	</div>
+
+	<div align="right">
+		<a th:href="@{/HomeAdmin}">Home</a>
+	</div>
+
+<div class="blue-bar ta-l">
+    <div class="container">
+        <h1>Questionnaire</h1>
+    </div>
+</div>
+
+
+
+<div class="formdiv">
+		<p>Complete the form to create a questionnaire with a product and the related questions</p>
+		<form action="#" th:action="@{/CreateQuestionnaire}" method="POST"
+			enctype="multipart/form-data">
+				<p>
+					Product Name: <input type="text" id="product-title" name="product-title" required />
+				</p>
+
+				<p>
+					Product Image: <input type="file" id="image-product" name="image-product">
+				</p>
+				
+				<p>
+					To be published on: <input type="date" id="date" name="date" th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" placeholder="yyyy-mm-dd" required />
+				</p>
+				
+				    <div class="container">
+				            
+				               <div>
+				                    <label for="name">Type your question</label>
+				               </div>
+				
+				
+								<p>
+									<input class="insert-quest" name = "insert-quest" id="insert-quest" type="text" 
+										placeholder="Insert a question" />
+								</p>
+								
+								<div class="mark-questions"></div>
+							
+								
+								<p id="add-question" class="add-question">
+									Add an additional question
+								</p>
+							
+								<input type="number" id="counter" hidden name="counter" value="1"/>
+				     
+				          </div>
+				
+				<button type="submit" class="create-button">Create Questionnaire</button>
+				
+				<p th:text=" ${errorMsg}" id="error-msg"></p>
+				
+		</form>
+</div>
+</body>
+<script>
+$(document).ready(function(){
+		
+	  $("#add-question").click(function(){
+		  var counter = incrementHiddenCounter();
+		  var question = document.getElementById("insert-quest").value;
+		  var quest_html = "<p><input name=";
+		  counter = counter - 1;
+		  quest_html = quest_html.concat("'mark_question_");
+		  quest_html = quest_html.concat(counter);
+		  quest_html = quest_html.concat("' value='");
+		  quest_html = quest_html.concat(question);
+		  quest_html = quest_html.concat("'/></p>");
+		  $( quest_html ).appendTo( ".mark-questions" );
+
+	  });
+	  
+	});
+
+	function incrementHiddenCounter() {
+		
+		var counterp;
+		
+		if(document.getElementById("counter") != null){
+		  counterp = document.getElementById("counter");
+		  counterp.setAttribute('value', parseInt(counterp.value) + 1);
+		} 
+		
+		var num = parseInt(counterp.value)
+		return num
+		
+	}
+
+</script>

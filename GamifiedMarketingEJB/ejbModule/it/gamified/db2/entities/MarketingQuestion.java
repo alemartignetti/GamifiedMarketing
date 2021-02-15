@@ -15,6 +15,11 @@ public class MarketingQuestion implements Serializable {
 		super();
 	}
 	
+	public MarketingQuestion(String text, int num) {
+		setText(text);
+		setNum(num);
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

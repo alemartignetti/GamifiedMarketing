@@ -1,0 +1,22 @@
+table, th, tr {
+	border: 1px solid black;
+}
+
+.formdiv {
+	width: "25%";
+	float: left;
+	display: inline;
+	margin: 5px;
+	padding: 5px;
+}
+
+/* Add padding to containers */
+.container {
+	padding: 16px;
+	border: 2px solid black;
+}
+
+.buttonadd{
+	border: 1px solid black;
+  	border-radius: 3px;
+}

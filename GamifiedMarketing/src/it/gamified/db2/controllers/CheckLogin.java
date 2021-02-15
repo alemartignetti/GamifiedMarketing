@@ -16,6 +16,7 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import it.gamified.db2.services.LogService;
 import it.gamified.db2.services.UserServices;
 import it.gamified.db2.entities.User;
 import it.gamified.db2.entities.User.Role;
@@ -28,6 +29,8 @@ public class CheckLogin extends HttpServlet {
 	private TemplateEngine templateEngine;
 	@EJB(name = "it.gamified.db2.services/UserServices")
 	private UserServices usrService;
+	@EJB(name = "it.gamified.db2.services/LogService")
+	private LogService lService;
 
 	public CheckLogin() {
 		super();
@@ -94,6 +97,7 @@ public class CheckLogin extends HttpServlet {
 		}
 		else {
 			request.getSession().setAttribute("user", user);
+			lService.registerLog(user.getId(), "L");
 			if (user.getUrole() == Role.ADMIN) {
 				path = getServletContext().getContextPath() + "/HomeAdmin";
 				response.sendRedirect(path);

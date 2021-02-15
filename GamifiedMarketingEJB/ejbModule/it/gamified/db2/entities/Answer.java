@@ -29,7 +29,7 @@ public class Answer implements Serializable{
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	// **OWNER RELATIONSHIP**
+	// **REFERRING TO RELATIONSHIP**
 	// Not used but implemented
 	
 	@ManyToOne
@@ -66,7 +66,7 @@ public class Answer implements Serializable{
 	}
 	
 	public Answer() {
-		
+		setTimestamp(new Date());
 	}
 	
 	public int getId() {
@@ -83,6 +83,7 @@ public class Answer implements Serializable{
 
 	public void setUser(User user) {
 		this.user = user;
+		user.addAnswer(this);
 	}
 
 	public Questionnaire getQuestionnaire() {
@@ -118,9 +119,10 @@ public class Answer implements Serializable{
 		this.answers = answers;
 	}
 
+	// Answering relationship
 	public void setAnswerText(MarketingQuestion quest, String text) {
 		answers.put(quest, text);
-		quest.addAnswer(this);
+		//quest.addAnswer(this);
 	}
 	
 	public void removeAnswerText(MarketingQuestion quest) {

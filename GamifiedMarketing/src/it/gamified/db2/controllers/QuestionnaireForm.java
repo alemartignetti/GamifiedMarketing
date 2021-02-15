@@ -89,6 +89,15 @@ public class QuestionnaireForm extends HttpServlet {
 			templateEngine.process(path, ctx, response.getWriter());
 			return;
 		}
+		
+		if(user.isBlocked()) {
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("blockMsg", "You misbehaved and for such reason your answering possibility has been precluded.");
+			String path = "/WEB-INF/BlockedUser.html";
+			templateEngine.process(path, ctx, response.getWriter());
+			return;
+		}
 
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());

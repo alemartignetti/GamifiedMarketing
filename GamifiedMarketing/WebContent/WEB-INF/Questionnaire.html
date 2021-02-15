@@ -66,10 +66,14 @@
 					<br>
 
 				</div>
-
+				
+			   </form>
 				<div align="right">
-					<button type="button" id="cancelBtn"
-						onclick="location.href='http://localhost:8080/GamifiedMarketing/QuestionnaireForm';">Cancel</button>
+				
+					<form id="cancelaction" action="CancelQuestionnaire" method="post">
+					    <input type="submit" id="cancelBtn" value="Cancel">
+					</form>
+					
 					<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
 					<button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
 				</div>
@@ -78,7 +82,7 @@
 					<span class="step"></span> <span class="step"></span>
 				</div>
 
-			</form>
+			
 
 			<script>
 				var currentTab = 0; // Current tab is set to be the first tab (0)

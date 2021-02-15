@@ -64,7 +64,6 @@ public class HomePageManager extends HttpServlet {
 				
 		try {
 			dailyQuest = qService.findDailyQuestionnaire();
-			reviews = dailyQuest.getReviews();
 		} catch (NonUniqueDailyQuestionnaire e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
@@ -80,7 +79,7 @@ public class HomePageManager extends HttpServlet {
 			
 			// Set thymeleaf variable to present reviews and product
 			ctx.setVariable("dailyQuest", dailyQuest);
-			ctx.setVariable("reviews", reviews);
+			ctx.setVariable("reviews", dailyQuest.getReviews());
 			isDailyQuestionnaireAvailable = true;
 			System.out.println("Daily Questionnaire Formatted.");
 		}

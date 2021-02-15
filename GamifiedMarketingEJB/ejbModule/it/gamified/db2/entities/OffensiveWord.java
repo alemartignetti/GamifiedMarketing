@@ -8,7 +8,10 @@ import javax.persistence.*;
 @NamedQueries({
 	@NamedQuery(
 		    name="getAllOffensive",
-		    query="SELECT o.word FROM OffensiveWord o")
+		    query="SELECT o.word FROM OffensiveWord o"),
+	@NamedQuery(
+		    name="OffensiveWord.isOffensive",
+		    query="SELECT o.word FROM OffensiveWord o where o.word = :supposed")
 })
 
 @Entity
