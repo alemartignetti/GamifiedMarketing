@@ -10,7 +10,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.datatools.connectivity.jdt.DRIVERLIBRARY/MySQL JDBC Driver"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Eclipse Link">
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/eclipseLink">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 			<attribute name="owner.project.facets" value="jpt.jpa"/>
