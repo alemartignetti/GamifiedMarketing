@@ -123,7 +123,7 @@ public class QuestionnaireCreation extends HttpServlet {
 					}
 								
 					if (counter > 1) {
-						for (int i = 1; i <= counter; i++) {
+						for (int i = 1; i < counter; i++) {
 							markQuestion = request.getParameter("mark_question_" + i);
 							System.out.println("Mark Question n" + i + ":" + markQuestion);
 							if (markQuestion != null && !markQuestion.isEmpty()) {

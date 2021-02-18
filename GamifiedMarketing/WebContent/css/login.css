@@ -85,6 +85,14 @@ button:hover {
 /* Add padding to containers */
 .container {
 	padding: 16px;
+	margin: 0 auto;
+	width : 300px;
+}
+
+/* Add padding to containers */
+.overform {
+	margin: 0 auto;
+	width : 300px;
 }
 
 /* The "Forgot password" text */
