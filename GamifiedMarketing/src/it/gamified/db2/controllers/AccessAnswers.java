@@ -73,7 +73,6 @@ public class AccessAnswers extends HttpServlet {
 		user_id = Integer.parseInt(request.getParameter("user_id"));
 
 		Answer answer = null;
-		Map<MarketingQuestion, String> texts = new HashMap<MarketingQuestion, String>();
 		
 		try {
 			answer = aService.getAnswerByUserAndQuestionnaire(quest_id, user_id);
@@ -83,13 +82,10 @@ public class AccessAnswers extends HttpServlet {
 			return;
 		}
 		
-		texts = answer.getAnswers();
-		
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
 		ctx.setVariable("answer", answer);
-		ctx.setVariable("texts", texts);
 		
 		String path = "/WEB-INF/AccessAnswers.html";
 		templateEngine.process(path, ctx, response.getWriter());
