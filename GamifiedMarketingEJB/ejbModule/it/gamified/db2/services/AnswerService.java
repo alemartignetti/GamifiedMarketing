@@ -46,20 +46,22 @@ public class AnswerService {
 			e.printStackTrace();
 			throw new Exception("Unexpected Error");
 		}
-		User user = em.find(User.class, userId);
-
-		List<Answer> answer = em
-				.createQuery("Select a from Answer a " + "where (a.questionnaire = :quest) and (a.user = :user)",
-						Answer.class)
-				.setParameter("user", user).setParameter("quest", questionnaire).getResultList();
-
-		if (answer.isEmpty()) {
-			return null;
-		} else if (answer.size() > 1) {
-			throw new AnswerDuplicate("More than one answer in DB! Integrity constraint violation.");
-		} else {
-			return answer.get(0);
-		}
+//		User user = em.find(User.class, userId);
+//
+//		List<Answer> answer = em
+//				.createQuery("Select a from Answer a " + "where (a.questionnaire = :quest) and (a.user = :user)",
+//						Answer.class)
+//				.setParameter("user", user).setParameter("quest", questionnaire).getResultList();
+//
+//		if (answer.isEmpty()) {
+//			return null;
+//		} else if (answer.size() > 1) {
+//			throw new AnswerDuplicate("More than one answer in DB! Integrity constraint violation.");
+//		} else {
+//			return answer.get(0);
+//		}
+		
+		return  getAnswerByUserAndQuestionnaire(questionnaire.getId(), userId);
 	}
 	
 	// NEEDED BECAUSE ANSWERS ARE NOT EAGERLY FETCHED

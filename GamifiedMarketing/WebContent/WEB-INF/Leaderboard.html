@@ -21,10 +21,13 @@
 	<h1>Our top respondents</h1>
 	
 	<div th:if="${!emptyL}">
+	
+		
+	
 		<div id="container" th:each="u : ${leaderboard}">
-			<div class="row" th:classappend=" ${u.points}">
+			<div class="row">
 				<div class="name" th:inline="text">[[${u.username}]]</div>
-	    		<div class="score" th:inline="text">[[${u.points}]]</div>
+				<div class="score" th:inline="text">[[${u.points}]]</div>
 	  		</div>
 		</div>
 	</div>

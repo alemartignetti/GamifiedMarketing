@@ -11,7 +11,7 @@
   border-bottom: 1px solid #AFAFAF;
 }
 
-.row.one {
+.row:nth-child(1){
   position: relative;
   display: block;
   width: 100%;
@@ -20,7 +20,7 @@
   background: gold;
 }
 
-.row.two {
+.row:nth-child(2) {
   position: relative;
   display: block;
   width: 100%;
@@ -29,7 +29,7 @@
   background: #c0c0c0;
 }
 
-.row.three {
+.row:nth-child(3) {
   position: relative;
   display: block;
   width: 100%;
