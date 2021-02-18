@@ -7,7 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @NamedQueries({
-	@NamedQuery(name = "Log.cancelledLogs", query = "SELECT l FROM Log l WHERE (l.type = it.gamified.db2.entities.Log.Type.CANCEL and date(l.timestamp) = :dateq)")
+	@NamedQuery(name = "Log.cancelledLogs", query = "SELECT l FROM Log l WHERE (l.type = it.gamified.db2.entities.Log.Type.CANCEL and CAST(l.timestamp AS DATE) = :dateq)")
 })
 
 @Entity
