@@ -3,7 +3,9 @@ package it.gamified.db2.controllers;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
@@ -71,8 +73,8 @@ public class AccessSubmit extends HttpServlet {
 		List<MarketingQuestion> questions = null;
 		List<Answer> answers = null;
 		List<User> users = new ArrayList<User>();
-		//List<User> cancelled_users = new ArrayList<User>();
-		//List<Log> logs = null;
+		Set<User> cancelled_users = new HashSet<User>();
+		List<Log> logs = null;
 		
 		questionnaire = qService.findQuestionnaire(quest_id);
 
@@ -83,9 +85,12 @@ public class AccessSubmit extends HttpServlet {
 			users.add(a.getUser());
 		}
 		
-//		for (Log l : logs) {
-//			cancelled_users.add(l.getUser());
-//		}
+		logs = lService.getCancelledLogs(quest_id);
+		
+		for (Log l : logs) {
+			cancelled_users.add(l.getUser());
+			System.out.println("FOUND USER IN LOGS");
+		}
 		
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
@@ -93,7 +98,7 @@ public class AccessSubmit extends HttpServlet {
 		ctx.setVariable("questions", questions);
 		ctx.setVariable("users", users);
 		ctx.setVariable("questionnaire", questionnaire);
-//		ctx.setVariable("cusers", cancelled_users);
+		ctx.setVariable("cusers", cancelled_users);
 		
 		String path = "/WEB-INF/AccessSubmit.html";
 		templateEngine.process(path, ctx, response.getWriter());

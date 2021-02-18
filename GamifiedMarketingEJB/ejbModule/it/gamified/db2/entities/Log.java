@@ -7,8 +7,10 @@ import java.util.List;
 import javax.persistence.*;
 
 @NamedQueries({
-	@NamedQuery(name = "Log.cancelledLogs", query = "SELECT l FROM Log l WHERE (l.type = it.gamified.db2.entities.Log.Type.CANCEL and CAST(l.timestamp AS DATE) = :dateq)")
+	@NamedQuery(name = "Log.cancelledLogs", query = "SELECT l FROM Log l WHERE (l.type = it.gamified.db2.entities.Log.Type.CANCEL AND l.timestamp >= :dateq AND l.timestamp < :dateq1)")
 })
+
+// and function('trunc', l.timestamp) = :dateq
 
 @Entity
 @Table(name="logtable", schema="db_gamifiedschema")
