@@ -1,0 +1,37 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Access Data</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../CSS/delete.css" th:href="@{/css/delete.css}" />
+</head>
+<body>
+	<div align="right">
+		<p th:text="'Welcome, ' + ${session.user.username} + '!'">Welcome,
+			user.</p>
+		<a th:href="@{/Logout}">Logout</a> <br> <a
+			th:href="@{/HomeAdmin}">Home</a> <br> <a
+			th:href="@{/AccessData}">Back</a>
+	</div>
+
+	<div align="center">
+		<h2>Answers</h2>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Question</th>
+					<th>Answer</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="instance : ${answer.answers}">
+					<td th:text="${instance.key.text}">QUESTION_TEXT</td>
+					<td th:text="${instance.value}">ANSWER_TEXT</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</body>
+</html>
