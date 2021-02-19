@@ -26,6 +26,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import it.gamified.db2.entities.Answer;
 import it.gamified.db2.entities.Log;
 import it.gamified.db2.entities.MarketingQuestion;
+import it.gamified.db2.entities.OptionalQuest;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.AnswerDuplicate;
@@ -85,7 +86,21 @@ public class AccessAnswers extends HttpServlet {
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
+		if(answer == null) {
+			
+		}
+		
 		ctx.setVariable("answer", answer);
+		
+		if(answer.getOptionalAnswer() == null) {
+			
+		}
+		
+		OptionalQuest optansw = answer.getOptionalAnswer();
+		
+		ctx.setVariable("age", optansw.getAge() == null ? "N/D" : optansw.getAge());
+		ctx.setVariable("exp", optansw.getExpertise() == null ? "N/D" : optansw.getExpertise().name());
+		ctx.setVariable("sex", optansw.getSex() == null ? "N/D" : optansw.getSex().name());
 		
 		String path = "/WEB-INF/AccessAnswers.html";
 		templateEngine.process(path, ctx, response.getWriter());

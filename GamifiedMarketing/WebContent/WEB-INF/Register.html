@@ -8,22 +8,24 @@
 <body>
   <h1>Welcome to the registration page!</h1>
   <h2>Insert your information in the form below:</h2>
-  <form action="Register" method="POST" id="registration" class="overform">
- 		<div class="container">
-    		<label for="uuname"><b>Username</b></label>
-    		<input type="text" placeholder="Choose a Username" id='uuname' name="username" required>
-			<br><br>
-    		<label for="upsw"><b>Password</b></label>
-    		<input type="password" placeholder="Choose a Password" id='upsw' name="pwd" required>
-			<br><br>
-    		<label for="umail"><b>Email</b></label>
-    		<input type="email" placeholder="Enter your email" id='umail' name="email" required>
-			<br><br>
-			<button type="submit" value="register">Register</button>
-			<p th:text=" ${errorMsg}"></p>
-			<p class="email_error" id="email_msg">Email bad format</p>
-  		</div>
-	</form>
+  <div align="center">
+	  <form action="Register" method="POST" id="registration" class="overform">
+	 		<div class="container">
+	    		<label for="uuname"><b>Username</b></label>
+	    		<input type="text" placeholder="Choose a Username" id='uuname' name="username" required>
+				<br><br>
+	    		<label for="upsw"><b>Password</b></label>
+	    		<input type="password" placeholder="Choose a Password" id='upsw' name="pwd" required>
+				<br><br>
+	    		<label for="umail"><b>Email</b></label>
+	    		<input type="email" placeholder="Enter your email" id='umail' name="email" required>
+				<br><br>
+				<button type="submit" value="register">Register</button>
+				<p th:text=" ${errorMsg}"></p>
+				<p class="email_error" id="email_msg">Email bad format</p>
+	  		</div>
+		</form>
+	</div>
 	<h3>
 		Already have an account? <a href="http://localhost:8080/GamifiedMarketing/">Login!</a>
 	</h3>

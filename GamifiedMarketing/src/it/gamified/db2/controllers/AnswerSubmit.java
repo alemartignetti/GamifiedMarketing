@@ -123,7 +123,13 @@ public class AnswerSubmit extends HttpServlet {
 		try {
 			aService.submitAnswer(dailyQuest.getId(), user.getId(), answersQuestionnaire, optionalAnswer);
 		} catch(OffensiveWord e) {
-			uService.blockUser(user.getId());
+			try {
+				uService.blockUser(user);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not block User.");
+				return;
+			}
 			//Add error page for blocked user
 			
 			ServletContext servletContext = getServletContext();

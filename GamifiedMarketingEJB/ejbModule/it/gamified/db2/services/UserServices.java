@@ -14,6 +14,7 @@ import it.gamified.db2.entities.Log;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.*;
+import it.polimi.db2.mission.exceptions.UpdateProfileException;
 
 import java.util.Date;
 import java.util.List;
@@ -82,9 +83,13 @@ public class UserServices {
         return u;
     }
 	
-	public void blockUser(int userId) {
-		User user = em.find(User.class, userId);
-		user.setBlocked(true);
+	public void blockUser(User user) throws Exception {
+		try {
+			user.setBlocked(true);
+			em.merge(user);
+		} catch (PersistenceException e) {
+			throw new Exception("Could not block user");
+		}
 	}
 	
 	public List<User> getLeaderboard(int quest_id){

@@ -22,14 +22,20 @@
 	
 	<div th:if="${!emptyL}">
 	
-		
-	
-		<div id="container" th:each="u : ${leaderboard}">
-			<div class="row">
-				<div class="name" th:inline="text">[[${u.username}]]</div>
-				<div class="score" th:inline="text">[[${u.points}]]</div>
-	  		</div>
-		</div>
+		<table>
+			<thead>
+				<tr>
+					<th>User</th>
+					<th>Score</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="row" th:each="u : ${leaderboard}">
+					<td th:text="${u.username}">USERNAME</td>
+					<td th:text="${u.points}">SCORE</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 	<div th:unless="${!emptyL}">
 		<h2>No user has answered to the questionnaire!</h2>
