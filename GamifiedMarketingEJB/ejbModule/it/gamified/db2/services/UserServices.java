@@ -14,7 +14,6 @@ import it.gamified.db2.entities.Log;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.*;
-import it.polimi.db2.mission.exceptions.UpdateProfileException;
 
 import java.util.Date;
 import java.util.List;

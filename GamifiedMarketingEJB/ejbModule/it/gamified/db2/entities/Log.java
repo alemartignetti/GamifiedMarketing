@@ -26,7 +26,7 @@ public class Log implements Serializable{
 	
 	// **LOGGING RELATIONSHIP**
 	// ----- FETCH TYPE -----
-	// The fetch type is EAGER since we can get user details 
+	// The fetch type is EAGER since we needE user details 
 	// ----- CASCADE --------
 	// Default
 	
