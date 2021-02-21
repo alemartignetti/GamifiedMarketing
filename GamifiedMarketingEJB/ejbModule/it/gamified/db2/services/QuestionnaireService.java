@@ -3,7 +3,9 @@ package it.gamified.db2.services;
 import java.util.List;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -11,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TemporalType;
 
 import it.gamified.db2.exceptions.*;
+import it.gamified.db2.entities.Log;
 import it.gamified.db2.entities.MarketingQuestion;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.Review;
@@ -87,6 +90,22 @@ public class QuestionnaireService {
 	public void deleteQuestionnaire(int id) {
 		// All managed by cascade
 		Questionnaire toBeDeleted = em.find(Questionnaire.class, id);
+		
+		Date ref_date = toBeDeleted.getRef_date();
+		Calendar next_day = new GregorianCalendar();
+		
+		next_day.setTime(ref_date);
+		next_day.set(Calendar.DAY_OF_YEAR, next_day.get(Calendar.DAY_OF_YEAR) + 1);
+		
+		next_day.set(Calendar.HOUR_OF_DAY, 0);
+		next_day.set(Calendar.MINUTE, 0);
+		next_day.set(Calendar.SECOND, 0);
+		
+		Date next_date = next_day.getTime();
+		
+		em.createNamedQuery("Log.removeCancelLogs")
+				.setParameter("dateq", ref_date)
+				.setParameter("dateq1", next_date);
 		em.remove(toBeDeleted);
 	}
 

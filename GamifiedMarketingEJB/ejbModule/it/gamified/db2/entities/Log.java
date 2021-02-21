@@ -6,7 +6,8 @@ import java.util.Date;
 import javax.persistence.*;
 
 @NamedQueries({
-	@NamedQuery(name = "Log.cancelledLogs", query = "SELECT l FROM Log l WHERE (l.type = it.gamified.db2.entities.Log.Type.CANCEL AND l.timestamp >= :dateq AND l.timestamp < :dateq1)")
+	@NamedQuery(name = "Log.cancelledLogs", query = "SELECT l FROM Log l WHERE (l.type = it.gamified.db2.entities.Log.Type.CANCEL AND l.timestamp >= :dateq AND l.timestamp < :dateq1)"),
+	@NamedQuery(name = "Log.removeCancelLogs", query = "DELETE FROM Log l WHERE (l.type = it.gamified.db2.entities.Log.Type.CANCEL AND l.timestamp >= :dateq AND l.timestamp < :dateq1)")
 })
 
 // and function('trunc', l.timestamp) = :dateq
