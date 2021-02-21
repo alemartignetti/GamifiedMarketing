@@ -1,16 +1,17 @@
 package it.gamified.db2.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.*;
 
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = "Answer.getAnswerbyQuestandUser", query = "Select a from Answer a where (a.questionnaire = :quest) and (a.user = :user)")
+})
 @Table(name="answer", schema="db_gamifiedschema")
 public class Answer implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -122,7 +123,6 @@ public class Answer implements Serializable{
 	// Answering relationship
 	public void setAnswerText(MarketingQuestion quest, String text) {
 		answers.put(quest, text);
-		//quest.addAnswer(this);
 	}
 	
 	public void removeAnswerText(MarketingQuestion quest) {

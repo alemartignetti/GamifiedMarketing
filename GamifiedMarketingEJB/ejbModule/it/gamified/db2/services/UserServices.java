@@ -5,17 +5,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
-import org.eclipse.persistence.config.HintValues;
-import org.eclipse.persistence.config.QueryHints;
-
 import javax.persistence.NonUniqueResultException;
 
-import it.gamified.db2.entities.Log;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.*;
 
-import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -91,11 +86,11 @@ public class UserServices {
 		}
 	}
 	
-	public List<User> getLeaderboard(int quest_id){
+	public List<User> getLeaderboard(Questionnaire quest){
 		
-		Questionnaire quest = em.find(Questionnaire.class, quest_id);
 		// The method should get an ordered list of users based on a given questionnaire, if the answer exists.
 		// Simply use a named query and get the ordered user by point where exist an answer
+		// Set Hint used to refresh the users, whose point are updated db side by a trigger amnd we need to bring this modification in the webapplication
 		List<User> users = em.createNamedQuery("User.getLeaderboard", User.class).setParameter("quest", quest).setHint("javax.persistence.cache.storeMode", "REFRESH").getResultList();
 		
 		return users;

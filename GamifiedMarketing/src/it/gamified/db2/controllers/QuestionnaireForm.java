@@ -68,7 +68,7 @@ public class QuestionnaireForm extends HttpServlet {
 
 		try {
 			dailyQuest = qService.findDailyQuestionnaire();
-			Answer answer = aService.getAnswerByUserAndQuestionnaire(dailyQuest.getId(), user.getId());
+			Answer answer = aService.getAnswerByUserAndQuestionnaire(dailyQuest, user);
 			
 			if(answer != null) {
 				throw new AlreadyAnswered("User already answered to the dailyQuestionnaire.");
@@ -93,7 +93,7 @@ public class QuestionnaireForm extends HttpServlet {
 		if(user.isBlocked()) {
 			ServletContext servletContext = getServletContext();
 			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("blockMsg", "You misbehaved and for such reason your answering possibility has been precluded.");
+			ctx.setVariable("blockMsg", "You misbehaved and for this reason your answering possibility has been precluded.");
 			String path = "/WEB-INF/BlockedUser.html";
 			templateEngine.process(path, ctx, response.getWriter());
 			return;
@@ -103,9 +103,6 @@ public class QuestionnaireForm extends HttpServlet {
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
 		if (dailyQuest != null) {
-			// Questionnaire exists, it becomes a session variable
-			session.setAttribute("dailyQuest", dailyQuest);
-
 			// Set thymeleaf variable to present reviews and product
 			ctx.setVariable("dailyQuest", dailyQuest);
 			ctx.setVariable("questions", questions);

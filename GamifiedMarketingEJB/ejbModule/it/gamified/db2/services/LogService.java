@@ -8,13 +8,9 @@ import java.util.GregorianCalendar;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TemporalType;
 
-import it.gamified.db2.exceptions.*;
-import it.gamified.db2.entities.Answer;
 import it.gamified.db2.entities.Log;
 import it.gamified.db2.entities.Questionnaire;
-import it.gamified.db2.entities.Review;
 import it.gamified.db2.entities.User;
 
 @Stateless
@@ -23,17 +19,15 @@ public class LogService {
 	private EntityManager em;
 
 	//Register Log
-	public void registerLog(int user_id, String type) {
+	public void registerLog(User user, String type) {
 		
-		User user = em.find(User.class, user_id);
+		// No user merge since user has no mapping of Log relationship
 		Log log = new Log(user, type);
 		em.persist(log);
 		
 	}
 	
-	public List<Log> getCancelledLogs(int quest_id){
-		
-		Questionnaire quest = em.find(Questionnaire.class, quest_id);
+	public List<Log> getCancelledLogs(Questionnaire quest){
 		Date ref_date = quest.getRef_date();
 		Calendar next_day = new GregorianCalendar();
 		

@@ -1,13 +1,8 @@
 package it.gamified.db2.controllers;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -24,7 +19,6 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.gamified.db2.entities.User;
 import it.gamified.db2.services.LogService;
-import it.gamified.db2.services.QuestionnaireService;
 
 @WebServlet("/CancelQuestionnaire")
 @MultipartConfig
@@ -60,7 +54,7 @@ public class CancelQuestionnaire extends HttpServlet {
 		User u = (User) session.getAttribute("user");
 		
 		// Create Cancellation Log
-		lService.registerLog(u.getId(), "cancel");
+		lService.registerLog(u, "C");
 
 		response.sendRedirect(getServletContext().getContextPath() + "/HomePage");
 	}

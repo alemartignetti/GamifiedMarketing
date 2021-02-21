@@ -1,19 +1,15 @@
 package it.gamified.db2.controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
-//import java.util.List;
 import java.util.List;
 
 import javax.ejb.EJB;
-//import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSession;
 
 import org.thymeleaf.TemplateEngine;
@@ -73,7 +69,7 @@ public class LeaderboardManager extends HttpServlet {
 			System.out.print("No Daily Questionnaire, denying formatting.");
 		}
 		
-		List<User> leaderboard = uService.getLeaderboard(dailyQuest.getId());
+		List<User> leaderboard = uService.getLeaderboard(dailyQuest);
 		
 		boolean emptyLeaderboard = false;
 		

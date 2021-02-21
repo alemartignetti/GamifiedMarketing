@@ -77,16 +77,12 @@ $(document).ready(function(){
 		
 	  $("#add-question").click(function(){
 		  var counter = incrementHiddenCounter();
-		  var question = document.getElementById("insert-quest").value;
 		  var quest_html = "<p><input name=";
 		  counter = counter - 1;
 		  quest_html = quest_html.concat("'mark_question_");
 		  quest_html = quest_html.concat(counter);
-		  quest_html = quest_html.concat("' value='");
-		  quest_html = quest_html.concat(question);
-		  quest_html = quest_html.concat("'/></p>");
+		  quest_html = quest_html.concat("' /></p>");
 		  $( quest_html ).appendTo( ".mark-questions" );
-
 	  });
 	  
 	});

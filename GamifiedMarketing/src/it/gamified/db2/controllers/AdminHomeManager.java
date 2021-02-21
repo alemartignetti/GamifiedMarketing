@@ -1,8 +1,6 @@
 package it.gamified.db2.controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -50,7 +48,11 @@ public class AdminHomeManager extends HttpServlet {
 		}
 
 		if (user.getUrole() == Role.USER) {
-			response.sendRedirect(loginpath);
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("permmsg", "Permission Denied, you're not an Admin!");
+			String path = "/WEB-INF/Permission.html";
+			templateEngine.process(path, ctx, response.getWriter());
 			return;
 		}
 

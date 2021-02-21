@@ -18,6 +18,8 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.gamified.db2.entities.Questionnaire;
+import it.gamified.db2.entities.User;
+import it.gamified.db2.entities.User.Role;
 import it.gamified.db2.services.QuestionnaireService;
 
 @WebServlet("/AccessData")
@@ -49,6 +51,18 @@ public class AccessData extends HttpServlet {
 			response.sendRedirect(loginpath);
 			return;
 		}
+		
+		User user = (User) session.getAttribute("user");
+		
+		if (user.getUrole() == Role.USER) {
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("permmsg", "Permission Denied, you're not an Admin!");
+			String path = "/WEB-INF/Permission.html";
+			templateEngine.process(path, ctx, response.getWriter());
+			return;
+		}
+		
 
 		List<Questionnaire> questionnaires = qService.findAllQuestionnaires();
 

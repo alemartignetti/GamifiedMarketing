@@ -2,7 +2,6 @@ package it.gamified.db2.controllers;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
@@ -19,12 +18,10 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import it.gamified.db2.entities.MarketingQuestion;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.InvalidQuestionAnswer;
 import it.gamified.db2.exceptions.OffensiveWord;
-import it.gamified.db2.exceptions.TransactionError;
 import it.gamified.db2.entities.OptionalQuest;
 import it.gamified.db2.services.AnswerService;
 import it.gamified.db2.services.QuestionnaireService;
@@ -121,10 +118,10 @@ public class AnswerSubmit extends HttpServlet {
 		OptionalQuest optionalAnswer = new OptionalQuest(age, sex, expertise);
 		
 		try {
-			aService.submitAnswer(dailyQuest.getId(), user.getId(), answersQuestionnaire, optionalAnswer);
+			aService.submitAnswer(dailyQuest, user, answersQuestionnaire, optionalAnswer);
 		} catch(OffensiveWord e) {
 			try {
-				uService.blockUser(user);
+				uService.blockUser(user); // We need to merge user modification
 			} catch (Exception e1) {
 				e1.printStackTrace();
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not block User.");
@@ -145,7 +142,7 @@ public class AnswerSubmit extends HttpServlet {
 			return;
 		}
 		
-		System.out.println("Done.!");
+		System.out.println("Done!");
 		
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());

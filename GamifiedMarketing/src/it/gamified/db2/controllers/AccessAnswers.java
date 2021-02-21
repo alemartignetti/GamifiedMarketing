@@ -1,13 +1,6 @@
 package it.gamified.db2.controllers;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
@@ -24,16 +17,9 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.gamified.db2.entities.Answer;
-import it.gamified.db2.entities.Log;
-import it.gamified.db2.entities.MarketingQuestion;
 import it.gamified.db2.entities.OptionalQuest;
-import it.gamified.db2.entities.Questionnaire;
-import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.AnswerDuplicate;
-import it.gamified.db2.exceptions.NoDailyQuestionnaire;
-import it.gamified.db2.exceptions.NonUniqueDailyQuestionnaire;
 import it.gamified.db2.services.AnswerService;
-import it.gamified.db2.services.LogService;
 import it.gamified.db2.services.QuestionnaireService;
 
 @WebServlet("/AccessAnswers")

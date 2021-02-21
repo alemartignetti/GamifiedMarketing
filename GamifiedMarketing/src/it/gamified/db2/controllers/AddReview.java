@@ -19,6 +19,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.User;
+import it.gamified.db2.exceptions.MissingData;
 import it.gamified.db2.exceptions.NoDailyQuestionnaire;
 import it.gamified.db2.exceptions.NonUniqueDailyQuestionnaire;
 import it.gamified.db2.services.QuestionnaireService;
@@ -71,15 +72,15 @@ public class AddReview extends HttpServlet {
 			reviewText = StringEscapeUtils.escapeJava(request.getParameter("add_review"));
 			
 			if (reviewText == null || reviewText.isEmpty() ) {
-				throw new Exception("Missing Review text, could not post review.");
+				throw new MissingData("Missing Review text, could not post review.");
 			}
 
-		} catch (Exception e) {
+		} catch (MissingData e) {
 			// for debugging only e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 			return;
 		}
-		qService.addReviewToQuestionnaire(q, reviewText, u.getId());
+		qService.addReviewToQuestionnaire(q, u, reviewText);
 		
 		String path = getServletContext().getContextPath() + "/HomePage";
 		response.sendRedirect(path);

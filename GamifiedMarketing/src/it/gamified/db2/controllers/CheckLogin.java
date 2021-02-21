@@ -88,16 +88,9 @@ public class CheckLogin extends HttpServlet {
 			ctx.setVariable("errorMsg", "Incorrect username/email or password");
 			path = "/index.html";
 			templateEngine.process(path, ctx, response.getWriter());
-		} else if(usr_field.equals("a")) {
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("errorMsg", "Success");
-			path = "/index.html";
-			templateEngine.process(path, ctx, response.getWriter());
-		}
-		else {
+		} else {
 			request.getSession().setAttribute("user", user);
-			lService.registerLog(user.getId(), "L");
+			lService.registerLog(user, "L");
 			if (user.getUrole() == Role.ADMIN) {
 				path = getServletContext().getContextPath() + "/HomeAdmin";
 				response.sendRedirect(path);

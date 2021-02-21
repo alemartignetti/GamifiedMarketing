@@ -1,8 +1,6 @@
 package it.gamified.db2.controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
@@ -54,7 +52,6 @@ public class HomePageManager extends HttpServlet {
 		}
 		
 		Questionnaire dailyQuest = null;
-		List<Review> reviews = null;
 		boolean isDailyQuestionnaireAvailable = false;
 		
 		// Redirect to the Home page and add missions to the parameters

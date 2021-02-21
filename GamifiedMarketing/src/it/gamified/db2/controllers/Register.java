@@ -19,6 +19,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.gamified.db2.entities.User;
 import it.gamified.db2.exceptions.EmailDuplicate;
+import it.gamified.db2.exceptions.MissingData;
 import it.gamified.db2.exceptions.RegistrationException;
 import it.gamified.db2.exceptions.UsernameDuplicate;
 import it.gamified.db2.services.UserServices;
@@ -56,10 +57,10 @@ public class Register extends HttpServlet {
 			email = StringEscapeUtils.escapeJava(request.getParameter("email"));
 			
 			if (usrn == null || pwd == null || email == null || usrn.isEmpty() || pwd.isEmpty() || email.isEmpty()) {
-				throw new Exception("Missing or empty credential value");
+				throw new MissingData("Missing or empty credential value");
 			}
 
-		} catch (Exception e) {
+		} catch (MissingData e) {
 			// for debugging only e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
 			return;

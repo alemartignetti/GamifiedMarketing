@@ -1,14 +1,13 @@
 package it.gamified.db2.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.*;
 
 @NamedQueries({
 	@NamedQuery(
 		    name="getAllOffensive",
-		    query="SELECT o.word FROM OffensiveWord o"),
+		    query="SELECT o.word FROM OffensiveWord o"), //deprecated
 	@NamedQuery(
 		    name="OffensiveWord.isOffensive",
 		    query="SELECT o.word FROM OffensiveWord o where o.word = :supposed")

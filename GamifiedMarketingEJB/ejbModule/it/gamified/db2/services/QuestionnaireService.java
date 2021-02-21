@@ -46,14 +46,14 @@ public class QuestionnaireService {
 	}
 
 	public List<Questionnaire> findAllQuestionnaires() {
-		List<Questionnaire> questionnaires = em.createQuery("Select q from Questionnaire q ORDER BY q.ref_date DESC", Questionnaire.class)
+		List<Questionnaire> questionnaires = em.createNamedQuery("Questionnaire.getAll", Questionnaire.class)
 				.getResultList();
 		return questionnaires;
 	}
 	
 	public List<Questionnaire> findPastQuestionnaires() {
 		Date current_date = new Date();
-		List<Questionnaire> questionnaires = em.createQuery("Select q from Questionnaire q WHERE q.ref_date < ?1 ORDER BY q.ref_date DESC", Questionnaire.class)
+		List<Questionnaire> questionnaires = em.createNamedQuery("Questionnaire.getPastQuest", Questionnaire.class)
 				.setParameter(1, current_date)
 				.getResultList();
 		return questionnaires;
@@ -85,32 +85,29 @@ public class QuestionnaireService {
 	}
 	
 	public void deleteQuestionnaire(int id) {
+		// All managed by cascade
 		Questionnaire toBeDeleted = em.find(Questionnaire.class, id);
 		em.remove(toBeDeleted);
 	}
 
-	public void addReviewToQuestionnaire(Questionnaire q, String text, int uid) {
-		//em.refresh(em.merge(q));
-		q = em.find(Questionnaire.class, q.getId());
-		User u = em.find(User.class, uid);
+	public void addReviewToQuestionnaire(Questionnaire q, User u, String text) {
 		Review r = new Review(text, u, q);
 
-		System.out.println("USER: " + uid + " posting review to QUESTIONNAIRE: " + q.getId());
+		System.out.println("USER: " + u.getId() + " posting review to QUESTIONNAIRE: " + q.getId());
 		q.addReview(r);
 		em.persist(r);
+		em.merge(q);
 
 		System.out.println("Success");
 	}
 	
 
-	public Questionnaire createQuestionnaire(String product_name, byte[] image, Date ref_date, List<String> questions) throws NonUniqueDailyQuestionnaire, NoDailyQuestionnaire, ParseException{
-		
+	public Questionnaire createQuestionnaire(String product_name, byte[] image, Date ref_date, List<String> questions) throws NonUniqueDailyQuestionnaire, NoDailyQuestionnaire{
 		
 		// Check that no questionnaire exist with given date
 		List<Questionnaire> questionnaires = em.createNamedQuery("Questionnaire.getQuestionnaire", Questionnaire.class)
 				.setParameter("date", ref_date, TemporalType.DATE).getResultList();
 
-		System.out.println("Number of questionnaire: " + Integer.toString(questionnaires.size()));
 		if (questionnaires.size() > 1) {
 			throw new NonUniqueDailyQuestionnaire(
 					"Double Questionnaire already present. This is illegal by database constraint.");

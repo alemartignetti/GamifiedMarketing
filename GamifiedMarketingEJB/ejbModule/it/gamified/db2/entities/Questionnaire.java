@@ -11,7 +11,9 @@ import javax.persistence.*;
 @Entity
 @Table(name="questionnaire", schema="db_gamifiedschema")
 @NamedQueries({
-	@NamedQuery(name = "Questionnaire.getQuestionnaire", query = "Select q from Questionnaire q where q.ref_date = :date")
+	@NamedQuery(name = "Questionnaire.getQuestionnaire", query = "Select q from Questionnaire q where q.ref_date = :date"),
+	@NamedQuery(name = "Questionnaire.getPastQuest", query = "Select q from Questionnaire q WHERE q.ref_date < ?1 ORDER BY q.ref_date DESC"),
+	@NamedQuery(name = "Questionnaire.getAll", query = "Select q from Questionnaire q ORDER BY q.ref_date DESC")
 })
 public class Questionnaire implements Serializable{
 	private static final long serialVersionUID = 1L;

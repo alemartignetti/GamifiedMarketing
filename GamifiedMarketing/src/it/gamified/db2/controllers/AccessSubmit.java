@@ -1,7 +1,6 @@
 package it.gamified.db2.controllers;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -26,8 +25,7 @@ import it.gamified.db2.entities.Log;
 import it.gamified.db2.entities.MarketingQuestion;
 import it.gamified.db2.entities.Questionnaire;
 import it.gamified.db2.entities.User;
-import it.gamified.db2.exceptions.NoDailyQuestionnaire;
-import it.gamified.db2.exceptions.NonUniqueDailyQuestionnaire;
+import it.gamified.db2.entities.User.Role;
 import it.gamified.db2.services.AnswerService;
 import it.gamified.db2.services.LogService;
 import it.gamified.db2.services.QuestionnaireService;
@@ -66,6 +64,18 @@ public class AccessSubmit extends HttpServlet {
 			return;
 		}
 		
+		User user = (User) session.getAttribute("user");
+		
+		if (user.getUrole() == Role.USER) {
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("permmsg", "Permission Denied, you're not an Admin!");
+			String path = "/WEB-INF/Permission.html";
+			templateEngine.process(path, ctx, response.getWriter());
+			return;
+		}
+		
+		
 		int quest_id;
 		quest_id = Integer.parseInt(request.getParameter("quest_id"));
 
@@ -78,14 +88,14 @@ public class AccessSubmit extends HttpServlet {
 		
 		questionnaire = qService.findQuestionnaire(quest_id);
 
-		questions = questionnaire.getQuestions(); // eagerly fetched
-		answers = aService.findAnswers(quest_id);
+		questions = questionnaire.getQuestions();
+		answers = questionnaire.getAnswers();
 		
 		for (Answer a : answers) {
 			users.add(a.getUser());
 		}
 		
-		logs = lService.getCancelledLogs(quest_id);
+		logs = lService.getCancelledLogs(questionnaire);
 		
 		for (Log l : logs) {
 			cancelled_users.add(l.getUser());
